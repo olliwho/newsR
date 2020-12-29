@@ -94,7 +94,7 @@ export class ArticleDetail extends React.Component<Props, State> {
             </div>
             <div className="article-button">
               <Link to={`/post/${groupName}/${article.number}`} className="no-link">
-                <IconButton icon="quote-right">Cite</IconButton>
+                <IconButton icon="quote-right">Quote</IconButton>
               </Link>
             </div>
           </div>
