@@ -17,6 +17,15 @@ interface StartPageState {
 }
 
 export function StartPage() {
+  if(!localStorage.getItem("nntpUrl")){
+    return (<Redirect to={"/setServer"}/>);
+  }
+  else{
+    return Start();
+  }
+}
+
+function Start() {
   const [state, setState] = useState<StartPageState>({
     groups: [],
     filterText: "",
@@ -67,6 +76,12 @@ export function StartPage() {
     return "square" as IconProp
   };
 
+  const serverButton: Button = {
+    name: "Change Server",
+    icon: "tools",
+    url: "/setServer"
+  };
+
   const manageButton: Button = {
     name: "Manage groups",
     icon: "cog",
@@ -85,11 +100,11 @@ export function StartPage() {
     url: "/groups"
   };
 
-  const groupButtons: Button[] = [manageButton, subscriptionButton];
+  const groupButtons: Button[] = [serverButton, manageButton, subscriptionButton];
 
-  const subscriptionButtons: Button[] = [manageButton, allGroupsButton];
+  const subscriptionButtons: Button[] = [serverButton, manageButton, allGroupsButton];
 
-  const manageButtons: Button[] = [allGroupsButton, subscriptionButton];
+  const manageButtons: Button[] = [serverButton, allGroupsButton, subscriptionButton];
 
   const isGroupFiltered = (group: Group) => {
     const {filterText} = state;
@@ -110,7 +125,7 @@ export function StartPage() {
   const serverUrl = localStorage.getItem("nntpUrl");
   const nntpUrl = serverUrl !== null ? serverUrl : '';
 
-  return (nntpUrl === '' ? <Redirect to={"/setServer"}/> :
+  return (
     <div className="app-grid">
       <Helmet>
         <title>newsR - {nntpUrl}</title>
@@ -130,6 +145,8 @@ export function StartPage() {
         {
           loading ? <Loading/> :
             <Switch>
+              <Route path="/setServer">
+              </Route>
               <Route path="/groups">
                 <List data={getGroups().map((group) => ({
                   title: group.name,
@@ -164,7 +181,7 @@ export function StartPage() {
       </div>
       <Footer/>
     </div>
-  )
+  );
 }
 
 

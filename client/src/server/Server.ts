@@ -151,8 +151,8 @@ export class Server implements ServerInterface {
 
   public static async instance(): Promise<Server> {
     if (this.server === null) {
-      const nntpUrl = process.env.REACT_APP_NNTP_URL;
-      const nntpPortStr = process.env.REACT_APP_NNTP_PORT;
+      const nntpUrl = localStorage.getItem("nntpUrl");
+      const nntpPortStr = localStorage.getItem("nntpPort");
       if (!nntpUrl || !nntpPortStr) {
         throw new Error('Environment variable: REACT_APP_NNTP_URL or REACT_APP_NNTP_PORT not specified.');
       }
@@ -208,5 +208,10 @@ export class Server implements ServerInterface {
       const description = typeof ng.description === 'undefined' ? '' : ng.description;
       return new Group(ng.name, description, this.host, this.newsieClient);
     });
+  }
+
+  public static async resetServer(): Promise<void>{
+    this.server = null;
+    await Server.instance();
   }
 }

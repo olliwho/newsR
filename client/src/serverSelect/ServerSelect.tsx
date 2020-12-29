@@ -5,7 +5,7 @@ import {Helmet} from "react-helmet";
 import {Header} from "../template/Header";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {Footer} from "../template/Footer";
-import {PostRouteParams} from "../post/Post";
+import {Server} from "../server/Server";
 
 interface ServerSelectState {
   loading: boolean;
@@ -18,7 +18,7 @@ interface ServerSelectState {
 
 //TODO: validate input
 
-class _ServerSelect extends React.Component<RouteComponentProps<PostRouteParams>, {}> {
+class _ServerSelect extends React.Component<RouteComponentProps, {}> {
 
   state: Readonly<ServerSelectState> = {
     loading: true,
@@ -32,14 +32,14 @@ class _ServerSelect extends React.Component<RouteComponentProps<PostRouteParams>
   async componentDidMount(): Promise<void> {
 
     this.setState({
-      url: localStorage.getItem('nnptUrl') || "",
-      port: localStorage.getItem('nnptPort') || "",
-      groupPrefix: localStorage.getItem('nnptGroupPrefix') || "",
+      url: localStorage.getItem('nntpUrl') || "",
+      port: localStorage.getItem('nntpPort') || "",
+      groupPrefix: localStorage.getItem('nntpGroupPrefix') || "",
       loading: false
     });
   }
 
-  async send(event: FormEvent<HTMLFormElement>) {
+  async setServer(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     this.setState({
       setting: true
@@ -49,16 +49,20 @@ class _ServerSelect extends React.Component<RouteComponentProps<PostRouteParams>
       console.error('Error: cannot set, please fill all fields.');
       return;
     }
-
+    if(url !== localStorage.getItem('nntpUrl')){
+      localStorage.clear();
+    }
     localStorage.setItem('nntpUrl', url);
     localStorage.setItem('nntpPort', port);
     localStorage.setItem('nntpGroupPrefix', groupPrefix);
+    await Server.resetServer();
 
     this.setState({
       setting: false,
       done: true
     });
-    this.props.history.goBack()
+    console.log(this.props.history)
+    this.props.history.push("/")
   }
 
   render() {
@@ -72,13 +76,13 @@ class _ServerSelect extends React.Component<RouteComponentProps<PostRouteParams>
         <div className="app-grid-body">
           {
             loading ? <Loading/> :
-              <form className="post-article" onSubmit={(event: FormEvent<HTMLFormElement>) => this.send(event)}>
+              <form className="post-article" onSubmit={(event: FormEvent<HTMLFormElement>) => this.setServer(event)}>
                 <div className="input-group">
                   <input
                     required
                     name="url"
                     type="text"
-                    placeholder="news.tugraz.at"
+                    placeholder="Server URL"
                     value={url}
                     onChange={(event: ChangeEvent<HTMLInputElement>) => {
                       this.setState({
@@ -92,7 +96,7 @@ class _ServerSelect extends React.Component<RouteComponentProps<PostRouteParams>
                     required
                     name="port"
                     type="text"
-                    placeholder="119"
+                    placeholder="Server Port"
                     value={port}
                     onChange={(event: ChangeEvent<HTMLInputElement>) => {
                       this.setState({
@@ -106,7 +110,7 @@ class _ServerSelect extends React.Component<RouteComponentProps<PostRouteParams>
                     required
                     name="prefix"
                     type="text"
-                    placeholder="tu-graz*"
+                    placeholder="Group Prefix"
                     value={groupPrefix}
                     onChange={(event: ChangeEvent<HTMLInputElement>) => {
                       this.setState({
