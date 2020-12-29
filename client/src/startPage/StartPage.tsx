@@ -8,7 +8,7 @@ import {Button, Header} from "../template/Header";
 import {Footer} from "../template/Footer";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
 import {getSubscribedGroups, subscribeGroup, unsubscribeGroup} from "../localStorage/localStorage";
-import {Link, Route, Switch} from "react-router-dom";
+import {Link, Route, Switch, Redirect} from "react-router-dom";
 
 interface StartPageState {
   groups: Group[],
@@ -107,8 +107,10 @@ export function StartPage() {
     return state.groups.filter(group => isGroupFiltered(group) && (isSubscription !== true || isGroupSubscribed(group.name)));
   };
 
-  const nntpUrl = process.env.REACT_APP_NNTP_URL ? process.env.REACT_APP_NNTP_URL : '';
-  return (
+  const serverUrl = localStorage.getItem("nntpUrl");
+  const nntpUrl = serverUrl !== null ? serverUrl : '';
+
+  return (nntpUrl === '' ? <Redirect to={"/setServer"}/> :
     <div className="app-grid">
       <Helmet>
         <title>newsR - {nntpUrl}</title>
