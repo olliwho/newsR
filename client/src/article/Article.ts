@@ -29,18 +29,20 @@ export class Article implements ArticleInterface {
   public readonly subject: string;
   public readonly date: Moment;
   public readonly author: Author;
+  public hasattachment: string;
   public references: ArticleId[] = [];
   public directReference: ArticleId = '';
   public followUps: ArticleInterface[] = [];
   private group: Group;
   private readonly newsieClient: Newsie;
 
-  constructor(id: string, number: number, subject: string, date: Moment, author: Author, group: Group, newsieClient: Newsie) {
+  constructor(id: string, number: number, subject: string, date: Moment, author: Author, hasattachment: string, group: Group, newsieClient: Newsie) {
     this.id = id;
     this.number = number;
     this.subject = subject;
     this.date = date;
     this.author = author;
+    this.hasattachment = hasattachment;
     this.group = group;
     this.newsieClient = newsieClient;
   }
@@ -51,8 +53,17 @@ export class Article implements ArticleInterface {
     }
     const date = moment(a.headers.DATE);
     const author = Author.authorFromString(mimeWordsDecode(a.headers.FROM));
+    var hasattachment = '';
+    
+    if (typeof a.metadata !== 'undefined') {
+        // We assume that very large entries do have an attachment.
+        if (a.metadata[":bytes"] > 10000) {
+            hasattachment = ' - 📎';
+        }
+    }
+    
     const article = new Article(a.headers['MESSAGE-ID'], a.articleNumber, mimeWordsDecode(a.headers.SUBJECT), date,
-      author, group, newsieClient);
+      author, hasattachment, group, newsieClient);
     article.setReferences(a.headers.REFERENCES);
     return article;
   }

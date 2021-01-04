@@ -131,7 +131,7 @@ class _Post extends React.Component<RouteComponentProps<PostRouteParams>, {}> {
         <div className="app-grid-body">
           {
             loading ? <Loading/> : (group === null ? "Group not found" :
-              <form className="post-article" onSubmit={(event: FormEvent<HTMLFormElement>) => this.send(event)}>
+              <form className="post-article" accept-charset="UTF-8" onSubmit={(event: FormEvent<HTMLFormElement>) => this.send(event)}>
                 <div className="input-group">
                   <input
                     required
