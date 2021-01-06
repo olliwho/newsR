@@ -91,20 +91,33 @@ $biggerFontSize: 1.2rem;
     }
   }
 
+.active-article {
+    background: rgba(72,147,112,0.3);
+}
+
+.active-group {
+    background: rgba(72,147,112,0.3);
+
+}
+
   .list-entry {
     cursor: pointer;
-    border-bottom: solid 1px lighten($fontColor, 60%);
+    border-bottom: solid 1px lighten($fontColor, 40%);
     display: flex;
+
+
 
     .list-entry-text {
       display: block;
-      padding: 1rem;
+      padding: 0.2rem;
+      padding-left: 1.0rem;
       text-overflow: ellipsis;
       overflow: hidden;
     }
 
     .title {
-      font-size: $biggerFontSize;
+      font-size: $standardFontSize;
+      font-weight: 400;
     }
 
     .subtitle {
@@ -121,6 +134,9 @@ $biggerFontSize: 1.2rem;
       margin: 1.55rem 0 1.55rem 1rem;
     }
   }
+
+
+
 
   .thread-detail {
 
@@ -206,8 +222,8 @@ $biggerFontSize: 1.2rem;
     text-align: center;
     color: $primaryGreen
   }
-
-  .sidebar-content {
+  /*Sidebar-Oldstyle*/
+ /* .sidebar-content {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
     grid-template-rows: auto;
@@ -224,7 +240,24 @@ $biggerFontSize: 1.2rem;
       grid-area: content;
       overflow-y: auto;
     }
+  }*/
+  /*Sidebar-Thunderbirdstyle*/
+  .sidebar-content {
+    height: $bodyHeight;
+    display: grid;
+    //grid-template-rows: repeat(auto-fit, auto);
+    //grid-template-columns: repeat(auto-fit, auto);
+    grid-template-columns: 0.5fr 0.7fr 1fr;
+    grid-template-rows: 1.6fr 2.4fr;
+    gap: 5px 5px;
+    grid-template-areas:
+      "Sidebar Content-1 Content-1"
+      "Sidebar Content-2 Content-2";
   }
+  .sidebar-content-sidebar { grid-area: Sidebar; background: $sidebarBg; overflow-y: scroll; border-right: solid 1px lighten($fontColor, 50%);}
+  .sidebar-content-content-1 { grid-area: Content-1; background: $sidebarBg; overflow-y: scroll;}
+  .sidebar-content-content-2 { grid-area: Content-2; overflow-y: auto;}
+
 
   .app-grid {
 

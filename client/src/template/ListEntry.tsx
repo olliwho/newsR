@@ -10,21 +10,26 @@ export function ListEntry<T extends ListType<T>>(props: {
   const history = useHistory();
 
   function onPress() {
+    if(entry.replace && entry.url) {
+        history.replace(entry.url);
+    }
     if(entry.onPress) {
       entry.onPress(entry);
     }
-    if(entry.url) {
-      history.push(entry.url);
+    if(!entry.replace && entry.url) {
+        history.push(entry.url);
     }
   }
 
   return (
-    <div onClick={onPress}>
-      <div className={"list-entry"}>
+    <div  onClick={onPress} >
+
+      <div className={"list-entry " + entry.class}>
         {entry.icon &&
         <div className="float">
           <FontAwesomeIcon icon={entry.icon}/>
         </div>
+
         }
         <div className="list-entry-text">
           <span className={"title" + (entry.bold ? " bold" : "")}>{entry.title}</span><br/>
@@ -32,6 +37,5 @@ export function ListEntry<T extends ListType<T>>(props: {
         </div>
       </div>
     </div>
-
   )
 }
