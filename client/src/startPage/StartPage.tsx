@@ -8,7 +8,7 @@ import {Button, Header} from "../template/Header";
 import {Footer} from "../template/Footer";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
 import {getSubscribedGroups, subscribeGroup, unsubscribeGroup} from "../localStorage/localStorage";
-import {Link, Route, Switch} from "react-router-dom";
+import {Link, Route, Switch, Redirect} from "react-router-dom";
 
 interface StartPageState {
   groups: Group[],
@@ -17,6 +17,15 @@ interface StartPageState {
 }
 
 export function StartPage() {
+  if(!localStorage.getItem("nntpUrl")){
+    return (<Redirect to={"/setServer"}/>);
+  }
+  else{
+    return Start();
+  }
+}
+
+function Start() {
   const [state, setState] = useState<StartPageState>({
     groups: [],
     filterText: "",
@@ -67,6 +76,12 @@ export function StartPage() {
     return "square" as IconProp
   };
 
+  const serverButton: Button = {
+    name: "Change Server",
+    icon: "tools",
+    url: "/setServer"
+  };
+
   const manageButton: Button = {
     name: "Manage groups",
     icon: "cog",
@@ -85,11 +100,11 @@ export function StartPage() {
     url: "/groups"
   };
 
-  const groupButtons: Button[] = [manageButton, subscriptionButton];
+  const groupButtons: Button[] = [serverButton, manageButton, subscriptionButton];
 
-  const subscriptionButtons: Button[] = [manageButton, allGroupsButton];
+  const subscriptionButtons: Button[] = [serverButton, manageButton, allGroupsButton];
 
-  const manageButtons: Button[] = [allGroupsButton, subscriptionButton];
+  const manageButtons: Button[] = [serverButton, allGroupsButton, subscriptionButton];
 
   const isGroupFiltered = (group: Group) => {
     const {filterText} = state;
@@ -107,7 +122,9 @@ export function StartPage() {
     return state.groups.filter(group => isGroupFiltered(group) && (isSubscription !== true || isGroupSubscribed(group.name)));
   };
 
-  const nntpUrl = process.env.REACT_APP_NNTP_URL ? process.env.REACT_APP_NNTP_URL : '';
+  const serverUrl = localStorage.getItem("nntpUrl");
+  const nntpUrl = serverUrl !== null ? serverUrl : '';
+
   return (
     <div className="app-grid">
       <Helmet>
@@ -128,6 +145,8 @@ export function StartPage() {
         {
           loading ? <Loading/> :
             <Switch>
+              <Route path="/setServer">
+              </Route>
               <Route path="/groups">
                 <List data={getGroups().map((group) => ({
                   title: group.name,
@@ -162,7 +181,7 @@ export function StartPage() {
       </div>
       <Footer/>
     </div>
-  )
+  );
 }
 
 

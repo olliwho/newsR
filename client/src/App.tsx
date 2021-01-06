@@ -4,6 +4,7 @@ import {GroupDetail} from "./group/GroupDetail";
 import {Route, Switch} from "react-router-dom"
 import {Post} from "./post/Post";
 import {StartPage} from "./startPage/StartPage";
+import {ServerSelect} from "./serverSelect/ServerSelect";
 
 
 export default class App extends React.Component {
@@ -13,6 +14,7 @@ export default class App extends React.Component {
         <Switch>
           <Route path="/groups/:name" component={GroupDetail}/>
           <Route path="/post/:name/:number?" component={Post}/>
+          <Route path="/setServer" component={ServerSelect}/>
           <Route path="/" component={StartPage}/>
         </Switch>
       </div>

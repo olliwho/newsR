@@ -92,6 +92,11 @@ export class ArticleDetail extends React.Component<Props, State> {
                 <IconButton icon="hand-point-right">Follow Up</IconButton>
               </Link>
             </div>
+            <div className="article-button">
+              <Link to={`/post/${groupName}/${article.number}`} className="no-link">
+                <IconButton icon="quote-right">Quote</IconButton>
+              </Link>
+            </div>
           </div>
         </div>
         {isContentLoading && <Loading/>}
