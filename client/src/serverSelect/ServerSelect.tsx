@@ -32,9 +32,9 @@ class _ServerSelect extends React.Component<RouteComponentProps, {}> {
   async componentDidMount(): Promise<void> {
 
     this.setState({
-      url: localStorage.getItem('nntpUrl') || "",
-      port: localStorage.getItem('nntpPort') || "",
-      groupPrefix: localStorage.getItem('nntpGroupPrefix') || "",
+      url: localStorage.getItem('nntpUrl') || "news.tugraz.at",
+      port: localStorage.getItem('nntpPort') || "119",
+      groupPrefix: localStorage.getItem('nntpGroupPrefix') || "tu-graz*",
       loading: false
     });
   }
@@ -82,7 +82,8 @@ class _ServerSelect extends React.Component<RouteComponentProps, {}> {
                     required
                     name="url"
                     type="text"
-                    placeholder="Server URL"
+                    title="Server URL like news.tugraz.at"
+                    placeholder="Server URL like news.tugraz.at"
                     value={url}
                     onChange={(event: ChangeEvent<HTMLInputElement>) => {
                       this.setState({
@@ -96,7 +97,8 @@ class _ServerSelect extends React.Component<RouteComponentProps, {}> {
                     required
                     name="port"
                     type="text"
-                    placeholder="Server Port"
+                    title="Server Port like 119"
+                    placeholder="Server Port like 119"
                     value={port}
                     onChange={(event: ChangeEvent<HTMLInputElement>) => {
                       this.setState({
@@ -110,7 +112,8 @@ class _ServerSelect extends React.Component<RouteComponentProps, {}> {
                     required
                     name="prefix"
                     type="text"
-                    placeholder="Group Prefix"
+                    title="Group Prefix like tu-graz*"
+                    placeholder="Group Prefix like tu-graz*"
                     value={groupPrefix}
                     onChange={(event: ChangeEvent<HTMLInputElement>) => {
                       this.setState({
