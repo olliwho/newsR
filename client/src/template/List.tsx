@@ -6,8 +6,10 @@ export type ListType<T> = {
   url?: string
   subtitle?: string
   bold?: boolean
+  class?: string
   icon?: IconProp
   onPress?: (entry: T) => void
+  replace?: boolean
 };
 
 export function List<T extends ListType<T>>(props: {
