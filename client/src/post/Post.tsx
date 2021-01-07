@@ -197,7 +197,7 @@ class _Post extends React.Component<RouteComponentProps<PostRouteParams>, {}> {
                   <button className="submit" type="submit" disabled={sending || done}>
                     {
                       sending ? <FontAwesomeIcon icon="spinner" spin />
-                      : (done ? "Sent!" : "Post")
+                      : (done ? "Sent!" : "Send")
                     }
                   </button>
                   <button className="back" type="reset" onClick={() => this.props.history.goBack()}>Go back</button>
