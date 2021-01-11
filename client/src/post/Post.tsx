@@ -8,6 +8,8 @@ import {Loading} from "../template/Loading";
 import {Helmet} from "react-helmet";
 import {Header} from "../template/Header";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {Content} from "../article/Content";
+import {Attachment} from "../article/Attachment";
 
 interface State {
   loading: boolean;
@@ -76,12 +78,28 @@ class _Post extends React.Component<RouteComponentProps<PostRouteParams>, {}> {
       return;
     }
     const subject = article.subject.startsWith(_Post.replyStr) ? article.subject : _Post.replyStr + article.subject;
+    const contents = await article.contents();
+    const content = "\n\n" + this.parseContent(contents);
     this.setState({
       group,
       article,
       subject,
+      content,
       loading: false
     });
+  }
+
+  private parseContent(contents: { text: Content[]; attachments: Attachment[] }): string {
+    let content = ""
+    for (let i = 0; i < contents.text.length; i++) {
+      let level = contents.text[i].citationLevel;
+      let cite = ">";
+      for (let j = 0; j < level; j++){
+        cite += ">";
+      }
+      content += (cite + " " + contents.text[i].text + "\n");
+    }
+    return content;
   }
 
   async send(event: FormEvent<HTMLFormElement>) {
@@ -131,7 +149,7 @@ class _Post extends React.Component<RouteComponentProps<PostRouteParams>, {}> {
         <div className="app-grid-body">
           {
             loading ? <Loading/> : (group === null ? "Group not found" :
-              <form className="post-article" accept-charset="UTF-8" onSubmit={(event: FormEvent<HTMLFormElement>) => this.send(event)}>
+              <form className="post-article" acceptCharset="UTF-8" onSubmit={(event: FormEvent<HTMLFormElement>) => this.send(event)}>
                 <div className="input-group">
                   <input
                     required
