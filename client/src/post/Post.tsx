@@ -3,11 +3,12 @@ import {Server} from "../server/Server";
 import {Author} from "../author/Author";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {Group} from "../group/Group";
-import {Article} from "../article/Article";
+import {Article, ArticleInterface} from "../article/Article";
 import {Loading} from "../template/Loading";
 import {Helmet} from "react-helmet";
 import {Header} from "../template/Header";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {Content} from "../article/Content";
 
 interface State {
   loading: boolean;
@@ -76,12 +77,23 @@ class _Post extends React.Component<RouteComponentProps<PostRouteParams>, {}> {
       return;
     }
     const subject = article.subject.startsWith(_Post.replyStr) ? article.subject : _Post.replyStr + article.subject;
+    const contents = await article.contents();
+    const content = this.parseQuote(contents.text, article);
     this.setState({
       group,
       article,
       subject,
+      content,
       loading: false
     });
+  }
+
+  private parseQuote(contents: Content[], article: ArticleInterface): string {
+    let quoteString = `On ${article.date.format("DD.MM.YY HH:mm")}, ${article.author.name} wrote:\n`;
+    contents.forEach(function (content) {
+      quoteString += (">".repeat(content.citationLevel+1) + " " + content.text + "\n")
+    });
+    return quoteString;
   }
 
   async send(event: FormEvent<HTMLFormElement>) {
@@ -119,7 +131,6 @@ class _Post extends React.Component<RouteComponentProps<PostRouteParams>, {}> {
       headerText += ` ${_Post.replyStr + article.subject}`;
       headerSubtitle = article.date.format("DD.MM.YYYY HH:mm") + " by " + article.author.name;
     }
-    // todo: insert article content as quote..
     // todo: form validation, author
     // todo: fix reload bug
     return (
@@ -131,7 +142,7 @@ class _Post extends React.Component<RouteComponentProps<PostRouteParams>, {}> {
         <div className="app-grid-body">
           {
             loading ? <Loading/> : (group === null ? "Group not found" :
-              <form className="post-article" accept-charset="UTF-8" onSubmit={(event: FormEvent<HTMLFormElement>) => this.send(event)}>
+              <form className="post-article" acceptCharset="UTF-8" onSubmit={(event: FormEvent<HTMLFormElement>) => this.send(event)}>
                 <div className="input-group">
                   <input
                     required
