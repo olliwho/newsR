@@ -10,6 +10,7 @@ import {getSubscribedGroups} from "../localStorage/localStorage";
 import {Loading} from "../template/Loading";
 import {Article} from "../article/Article";
 import {List} from "../template/List";
+import {Table, TableColumn} from "../template/Table";
 import {Helmet} from "react-helmet";
 import {addReadArticle, getReadArticles} from "../localStorage/localStorage";
 import {Button, Header} from "../template/Header";
@@ -25,6 +26,8 @@ interface State {
   readArticles: string[];
   filteredThreads: Article[];
   activeArticle: ArticleId;
+  sortColumn: string;
+  ascending: boolean;
 }
 
 export interface GroupRouteParams {
@@ -43,7 +46,9 @@ export class GroupDetail extends React.Component<RouteComponentProps<GroupRouteP
     threads: [],
     filteredThreads: [],
     readArticles: [],
-    activeArticle: ""
+    activeArticle: "",
+    sortColumn: "",
+    ascending: true
   };
 
   async componentDidMount(): Promise<void> {
@@ -77,19 +82,17 @@ export class GroupDetail extends React.Component<RouteComponentProps<GroupRouteP
       this.setState({filteredThreads})
     };
 
-
     const articleListData = group === null
       ? []
       : filteredThreads.map(article => ({
-        title: article.subject,
-        subtitle: `${article.author.name} - ${article.date.format('DD.MM.YY HH:mm')}  ${article.hasattachment} `,
-        url: `${match.url}/${article.number}`,
         bold: !this.state.readArticles.find(a => a === article.id),
         class: this.state.activeArticle === article.id ? "active-article" : "",
+        url: `${match.url}/${article.number}`,
         onPress: () => {
           addReadArticle(group.name, article.id);
           this.setState({readArticles: this.state.readArticles.concat(article.id), activeArticle: article.id})
-        }
+        },
+        referenceObject: article
       }));
 
     const buttons: Button[] = [
@@ -149,7 +152,7 @@ export class GroupDetail extends React.Component<RouteComponentProps<GroupRouteP
                                       || null}/>
                       }/>
                       <Route path={`${match.path}`}>
-                        <List data={articleListData}/>
+                        <Table onPressSort={(sortColumn, ascending) => this.setState({sortColumn: sortColumn, ascending: ascending})} sortColumn={this.state.sortColumn} ascending={this.state.ascending} data={articleListData} columns={[new TableColumn("Subject", 0, "subject"), new TableColumn("Author", 1, "author"), new TableColumn("Date", 2, "date")]} urlColumn="url"/>
                       </Route>
                     </Switch>
                     :
@@ -166,13 +169,12 @@ export class GroupDetail extends React.Component<RouteComponentProps<GroupRouteP
                                                    url: `/groups/${curgroup.name}`,
                                                    bold: group.name === curgroup.name,
                                                    class: group.name === curgroup.name ? "active-group" : "",
-                                                   replace: true,
                                                     onPress: () => {
-                                                      window.location.reload();
+                                                          this.componentDidMount();
                                                     }
                                                  }))}/>}
 
-                      content1={<List data={articleListData}/>}
+                      content1={<Table onPressSort={(sortColumn, ascending) => this.setState({sortColumn: sortColumn, ascending: ascending})} sortColumn={this.state.sortColumn} ascending={this.state.ascending} data={articleListData} columns={[new TableColumn("Subject", 0, "subject"), new TableColumn("Author", 1, "author"), new TableColumn("Date", 2, "date")]} urlColumn="url"/>}
                       content2={
                         <Switch>
                           <Route path={`${match.path}/:number`} render={props =>
@@ -210,3 +212,4 @@ function NoThread(props: {
     </Route>
   )
 }
+
