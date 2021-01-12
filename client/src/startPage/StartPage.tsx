@@ -77,7 +77,7 @@ function Start() {
   };
 
   const serverButton: Button = {
-    name: "Change Server",
+    name: "Settings",
     icon: "tools",
     url: "/setServer"
   };
