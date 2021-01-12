@@ -19,11 +19,9 @@ export function ListEntry<T extends ListType<T>>(props: {
     if(!entry.replace && entry.url) {
         history.push(entry.url);
     }
-
   }
 
   return (
-
     <div  onClick={onPress} >
 
       <div className={"list-entry " + entry.class}>

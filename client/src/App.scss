@@ -90,20 +90,6 @@ $biggerFontSize: 1.2rem;
       }
     }
   }
-table {
-    width: 100%;
-    border-spacing: 0px;
-}
-td {
-  border: 1px solid #ffffff;
-}
-
-th {
-  border-right: 1px solid #ffffff;
-  border-left: 1px solid #ffffff;
-  border-bottom: 2px solid #dddddd;
-  background: #dddddd;
-}
 
 .active-article {
     background: rgba(72,147,112,0.3);
@@ -149,9 +135,8 @@ th {
     }
   }
 
-.table-entry.bold {
-      font-weight: bold;
-}
+
+
 
   .thread-detail {
 
@@ -257,11 +242,6 @@ th {
     }
   }*/
   /*Sidebar-Thunderbirdstyle*/
-
- .table {
-      border: 1px solid black;
-  }
-
   .sidebar-content {
     height: $bodyHeight;
     display: grid;
