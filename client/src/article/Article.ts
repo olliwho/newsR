@@ -167,7 +167,7 @@ export class Article implements ArticleInterface {
       }
     }
     const contents = Article.bodyToContents(article.body);
-    // Article.stripStartEndCitationsFromContents(contents.text);
+    Article.stripStartEndCitationsFromContents(contents.text);
     return {text: contents.text, attachments: contents.attachments};
   }
 
