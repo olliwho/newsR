@@ -62,6 +62,15 @@ export class ArticleDetail extends React.Component<Props, State> {
     return <div className="nested-content">{this.nestContent(level - 1, text)}</div>;
   }
 
+  private nestQuote(contents: Content[], article: ArticleInterface): string {
+    //TODO: fix no \n in email
+    let quoteString = `On ${article.date.format("DD.MM.YY HH:mm")}, ${article.author.name} wrote:\n`;
+    contents.forEach(function (content) {
+      quoteString += (`>`.repeat(content.citationLevel+1) + ` ${content.text}\n`)
+    });
+    return quoteString;
+  }
+
   render() {
     const {article, showContent, onClickHeader, hasSimpleHeader, groupName} = this.props;
     const {contents, attachments, isContentLoading} = this.state;
@@ -83,18 +92,14 @@ export class ArticleDetail extends React.Component<Props, State> {
           }
           <div className="article-buttons">
             <div className="article-button">
-              <a href={`mailto:${article.author.email}`} className="no-link" onClick={e => e.stopPropagation()}>
+              <a href={`mailto:${article.author.email}?subject=${article.subject}&body=${this.nestQuote(contents, article)}`}
+                 className="no-link" onClick={e => e.stopPropagation()}>
                 <IconButton icon="reply">Reply</IconButton>
               </a>
             </div>
             <div className="article-button">
               <Link to={`/post/${groupName}/${article.number}`} className="no-link">
                 <IconButton icon="hand-point-right">Follow Up</IconButton>
-              </Link>
-            </div>
-            <div className="article-button">
-              <Link to={`/post/${groupName}/${article.number}`} className="no-link">
-                <IconButton icon="quote-right">Quote</IconButton>
               </Link>
             </div>
           </div>
@@ -107,23 +112,23 @@ export class ArticleDetail extends React.Component<Props, State> {
             </div>)}
           {attachments.length > 0 &&
           <div>
-            <p>Attachments:</p>
-            <ul className="attachments">
-              {attachments.map((attachment) =>
-                <li key={attachment.name}>
-                  <a
-                    href={attachment.dataUrl}
-                    download={attachment.name}
-                  >
-                    {['image/png', 'image/gif', 'image/jpeg', 'image/svg+xml'].includes(attachment.contentType) ? (
-                      <img src={attachment.dataUrl}  alt={attachment.name} />
+              <p>Attachments:</p>
+              <ul className="attachments">
+                {attachments.map((attachment) =>
+                  <li key={attachment.name}>
+                    <a
+                      href={attachment.dataUrl}
+                      download={attachment.name}
+                    >
+                      {['image/png', 'image/gif', 'image/jpeg', 'image/svg+xml'].includes(attachment.contentType) ? (
+                        <img src={attachment.dataUrl}  alt={attachment.name} />
                       ) : (
-                      <span>{attachment.name}</span>
+                        <span>{attachment.name}</span>
                       )
-                    }
-                  </a>
-                </li>)}
-            </ul>
+                      }
+                    </a>
+                  </li>)}
+              </ul>
           </div>
           }
         </div>}

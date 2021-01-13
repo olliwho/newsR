@@ -76,7 +76,7 @@ export class Article implements ArticleInterface {
     if (firstContent.isCitationStart()) {
       let nextRootIndex = 1;
       while (nextRootIndex < contents.length && (contents[nextRootIndex].citationLevel !== 0 ||
-      contents[nextRootIndex].text.length === 0)) {
+        contents[nextRootIndex].text.length === 0)) {
         nextRootIndex++;
       }
       contents.splice(0, nextRootIndex);
@@ -167,7 +167,7 @@ export class Article implements ArticleInterface {
       }
     }
     const contents = Article.bodyToContents(article.body);
-    Article.stripStartEndCitationsFromContents(contents.text);
+    // Article.stripStartEndCitationsFromContents(contents.text);
     return {text: contents.text, attachments: contents.attachments};
   }
 
