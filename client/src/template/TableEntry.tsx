@@ -29,7 +29,7 @@ export function TableEntry<T extends TableType<T>>(props: {
                 if (column.type === 1)
                     value = (entry.referenceObject[column.nativeName as keyof object] as Author).toString()
                 else if (column.type === 2)
-                    value = (entry.referenceObject[column.nativeName as keyof object] as Moment).format("DD.MM.YYYY HH:mm")
+                    value = (entry.referenceObject[column.nativeName as keyof object] as Moment).format("YYYY-MM-DD HH:mm")
                 else
                     value = entry.referenceObject[column.nativeName as keyof object]
                 return <td>{value}</td>

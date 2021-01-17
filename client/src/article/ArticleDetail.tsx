@@ -64,7 +64,7 @@ export class ArticleDetail extends React.Component<Props, State> {
 
   private nestQuote(contents: Content[], article: ArticleInterface): string {
     //TODO: fix no \n in email
-    let quoteString = `On ${article.date.format("DD.MM.YY HH:mm")}, ${article.author.name} wrote:\n`;
+    let quoteString = `On ${article.date.format("YYYY-MM-DD HH:mm")}, ${article.author.name} wrote:\n`;
     contents.forEach(function (content) {
       quoteString += (`>`.repeat(content.citationLevel+1) + ` ${content.text}\n`)
     });
@@ -94,7 +94,7 @@ export class ArticleDetail extends React.Component<Props, State> {
             <div className="article-button">
               <a href={`mailto:${article.author.email}?subject=${article.subject}&body=${this.nestQuote(contents, article)}`}
                  className="no-link" onClick={e => e.stopPropagation()}>
-                <IconButton icon="reply">Reply</IconButton>
+                <IconButton icon="envelope">Reply</IconButton>
               </a>
             </div>
             <div className="article-button">

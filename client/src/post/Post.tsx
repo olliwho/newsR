@@ -1,7 +1,7 @@
 import React, {ChangeEvent, FormEvent} from "react";
 import {Server} from "../server/Server";
 import {Author} from "../author/Author";
-import {RouteComponentProps, withRouter} from "react-router-dom";
+import {Redirect, RouteComponentProps, withRouter} from "react-router-dom";
 import {Group} from "../group/Group";
 import {Article, ArticleInterface} from "../article/Article";
 import {Loading} from "../template/Loading";
@@ -16,10 +16,10 @@ interface State {
   done: boolean;
   group: Group | null;
   article: Article | null;
-  author: string,
-  subject: string,
-  content: string,
-  email: string
+  author: string;
+  subject: string;
+  content: string;
+  email: string;
 }
 
 export interface PostRouteParams {
@@ -44,6 +44,11 @@ class _Post extends React.Component<RouteComponentProps<PostRouteParams>, {}> {
   };
 
   async componentDidMount(): Promise<void> {
+    const nntpUrl = localStorage.getItem("nntpUrl");
+    const nntpPortStr = localStorage.getItem("nntpPort");
+    if (!nntpUrl || !nntpPortStr) {
+      return;
+    }
     const {match} = this.props;
     const server = await Server.instance();
     const group = await server.getGroupByName(match.params.name);
@@ -89,11 +94,15 @@ class _Post extends React.Component<RouteComponentProps<PostRouteParams>, {}> {
   }
 
   private parseQuote(contents: Content[], article: ArticleInterface): string {
-    let quoteString = `On ${article.date.format("DD.MM.YY HH:mm")}, ${article.author.name} wrote:\n`;
+    let quoteString = `On ${article.date.format("YYYY-MM-DD HH:mm")}, ${article.author.name} wrote:\n`;
     contents.forEach(function (content) {
       quoteString += (">".repeat(content.citationLevel+1) + " " + content.text + "\n")
     });
     return quoteString;
+  }
+
+  async timeout(delay: number) {
+    return new Promise( res => setTimeout(res, delay) );
   }
 
   async send(event: FormEvent<HTMLFormElement>) {
@@ -119,9 +128,16 @@ class _Post extends React.Component<RouteComponentProps<PostRouteParams>, {}> {
       sending: false,
       done: true
     });
+    await this.timeout(1000)
+    this.props.history.goBack();
   }
 
   render() {
+    const nntpUrl = localStorage.getItem("nntpUrl");
+    const nntpPortStr = localStorage.getItem("nntpPort");
+    if (!nntpUrl || !nntpPortStr) {
+      return <Redirect to={"/setServer"}/>;
+    }
     const {match} = this.props;
     const {group, article, loading, subject, author, email, content, sending, done} = this.state;
 
@@ -129,7 +145,7 @@ class _Post extends React.Component<RouteComponentProps<PostRouteParams>, {}> {
     let headerSubtitle = "";
     if (article) {
       headerText += ` ${_Post.replyStr + article.subject}`;
-      headerSubtitle = article.date.format("DD.MM.YYYY HH:mm") + " by " + article.author.name;
+      headerSubtitle = article.date.format("YYYY-MM-DD HH:mm") + " by " + article.author.name;
     }
     // todo: form validation, author
     // todo: fix reload bug

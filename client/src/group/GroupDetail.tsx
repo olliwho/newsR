@@ -3,7 +3,7 @@ import {Group} from "./Group";
 import {ThreadDetail} from "../article/ThreadDetail";
 import {SidebarContent} from "../template/SidebarContent";
 import {Server} from "../server/Server";
-import {Link, Route, RouteComponentProps, Switch} from "react-router-dom"
+import {Link, Redirect, Route, RouteComponentProps, Switch} from "react-router-dom"
 import Media from "react-media";
 import {LARGE_SCREEN_QUERY, SMALL_SCREEN_QUERY} from "../template/Constants";
 import {getSubscribedGroups} from "../localStorage/localStorage";
@@ -52,6 +52,11 @@ export class GroupDetail extends React.Component<RouteComponentProps<GroupRouteP
   };
 
   async componentDidMount(): Promise<void> {
+    const nntpUrl = localStorage.getItem("nntpUrl");
+    const nntpPortStr = localStorage.getItem("nntpPort");
+    if (!nntpUrl || !nntpPortStr) {
+      return;
+    }
     const server = await Server.instance();
     const groups = await server.groups();
     const subscribedGroupsName = getSubscribedGroups();
@@ -72,6 +77,12 @@ export class GroupDetail extends React.Component<RouteComponentProps<GroupRouteP
   }
 
   render() {
+    const nntpUrl = localStorage.getItem("nntpUrl");
+    const nntpPortStr = localStorage.getItem("nntpPort");
+    if (!nntpUrl || !nntpPortStr) {
+      return <Redirect to={"/setServer"}/>;
+    }
+
     const {match} = this.props;
     const {group, loading, threads, filteredThreads} = this.state;
 

@@ -154,7 +154,7 @@ export class Server implements ServerInterface {
       const nntpUrl = localStorage.getItem("nntpUrl");
       const nntpPortStr = localStorage.getItem("nntpPort");
       if (!nntpUrl || !nntpPortStr) {
-        throw new Error('Environment variable: REACT_APP_NNTP_URL or REACT_APP_NNTP_PORT not specified.');
+        throw new Error('Server URl or Server Port not specified.');
       }
       this.server = new Server(nntpUrl, parseInt(nntpPortStr));
       await this.server.connectAndVerifyNewsieClient();

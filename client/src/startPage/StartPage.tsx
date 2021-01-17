@@ -17,8 +17,10 @@ interface StartPageState {
 }
 
 export function StartPage() {
-  if(!localStorage.getItem("nntpUrl")){
-    return (<Redirect to={"/setServer"}/>);
+  const nntpUrl = localStorage.getItem("nntpUrl");
+  const nntpPortStr = localStorage.getItem("nntpPort");
+  if (!nntpUrl || !nntpPortStr) {
+    return <Redirect to={"/setServer"}/>;
   }
   else{
     return Start();

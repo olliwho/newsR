@@ -15,7 +15,7 @@ export class ArticleAuthor extends React.Component<Props, State> {
     const {article} = this.props;
     return (
       <div className="article-detail-author">
-        {article.date.format("DD.MM.YYYY HH:mm")} by {article.author.name}
+        {article.date.format("YYYY-MM-DD HH:mm")} by {article.author.name}
         <Media queries={{small: SMALL_SCREEN_QUERY, large: LARGE_SCREEN_QUERY}}>
           {matches => (
             <Fragment>
