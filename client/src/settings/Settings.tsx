@@ -16,6 +16,7 @@ interface SettingsState {
   groupPrefix: string,
   author: string,
   email: string,
+  signature: string
 }
 
 //TODO: validate input
@@ -31,6 +32,7 @@ class _Settings extends React.Component<RouteComponentProps, {}> {
     url: "",
     port: "",
     groupPrefix: "",
+    signature: ""
   };
 
   async componentDidMount(): Promise<void> {
@@ -41,6 +43,7 @@ class _Settings extends React.Component<RouteComponentProps, {}> {
       url: localStorage.getItem('nntpUrl') || "news.tugraz.at",
       port: localStorage.getItem('nntpPort') || "119",
       groupPrefix: localStorage.getItem('nntpGroupPrefix') || "tu-graz*",
+      signature: localStorage.getItem('signature') || '',
       loading: false
     });
   }
@@ -50,7 +53,7 @@ class _Settings extends React.Component<RouteComponentProps, {}> {
     this.setState({
       setting: true
     });
-    const {author, email, url, port, groupPrefix} = this.state;
+    const {author, email, url, port, groupPrefix, signature} = this.state;
     if (!url || !port || !groupPrefix) {
       console.error('Error: cannot set, please fill all fields.');
       return;
@@ -63,6 +66,7 @@ class _Settings extends React.Component<RouteComponentProps, {}> {
     localStorage.setItem('nntpUrl', url);
     localStorage.setItem('nntpPort', port);
     localStorage.setItem('nntpGroupPrefix', groupPrefix);
+    localStorage.setItem('signature', signature);
     await Server.resetServer();
 
     this.setState({
@@ -73,11 +77,11 @@ class _Settings extends React.Component<RouteComponentProps, {}> {
   }
 
   render() {
-    const {loading, setting, done, author, email, url, port, groupPrefix} = this.state;
+    const {loading, setting, done, author, email, url, port, groupPrefix, signature} = this.state;
     return (
       <div className="app-grid">
         <Helmet>
-          <title>newsR</title>
+          <title>newsR - Settings</title>
         </Helmet>
         <Header name={"Settings"}/>
         <div className="app-grid-body">
@@ -155,6 +159,19 @@ class _Settings extends React.Component<RouteComponentProps, {}> {
                     onChange={(event: ChangeEvent<HTMLInputElement>) => {
                       this.setState({
                         groupPrefix: event.currentTarget.value
+                      })
+                    }}
+                  />
+                </div>
+                <div className="input-group">
+                  <textarea
+                    name="signature"
+                    title="Signature"
+                    placeholder="Your Signature..."
+                    value={signature}
+                    onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
+                      this.setState({
+                        signature: event.currentTarget.value
                       })
                     }}
                   />

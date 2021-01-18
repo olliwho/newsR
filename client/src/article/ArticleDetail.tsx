@@ -67,7 +67,13 @@ export class ArticleDetail extends React.Component<Props, State> {
     contents.forEach(function (content) {
       quoteString += (`>`.repeat(content.citationLevel+1) + ` ${content.text}\n`)
     });
-    return encodeURIComponent(quoteString);
+    return quoteString;
+  }
+
+  private createMailBody(contents: Content[], article: ArticleInterface): string {
+    const quote = this.nestQuote(contents, article);
+    const signature = localStorage.getItem('signature')
+    return encodeURIComponent(signature ? `${quote}\n\n-- \n${signature}` : quote);
   }
 
   render() {
@@ -91,7 +97,7 @@ export class ArticleDetail extends React.Component<Props, State> {
           }
           <div className="article-buttons">
             <div className="article-button">
-              <a href={`mailto:${article.author.email}?subject=${encodeURIComponent(article.subject)}&body=${this.nestQuote(contents, article)}`}
+              <a href={`mailto:${article.author.email}?subject=${encodeURIComponent(article.subject)}&body=${this.createMailBody(contents, article)}`}
                  className="no-link" onClick={e => e.stopPropagation()}>
                 <IconButton icon="envelope">Reply</IconButton>
               </a>

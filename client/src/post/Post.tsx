@@ -49,6 +49,7 @@ class _Post extends React.Component<RouteComponentProps<PostRouteParams>, {}> {
     if (!nntpUrl || !nntpPortStr) {
       return;
     }
+
     const {match} = this.props;
     const server = await Server.instance();
     const group = await server.getGroupByName(match.params.name);
@@ -64,14 +65,20 @@ class _Post extends React.Component<RouteComponentProps<PostRouteParams>, {}> {
       });
       return;
     }
+
+    const signature = localStorage.getItem("signature");
+    let content = signature ? `\n\n-- \n${signature}` : "";
+
     if (!match.params.number) {
       this.setState({
         group,
+        content,
         article: null,
         loading: false
       });
       return;
     }
+    console.log('hered1')
     const article = await group.article(parseInt(match.params.number));
     if (!article) {
       this.setState({
@@ -82,8 +89,12 @@ class _Post extends React.Component<RouteComponentProps<PostRouteParams>, {}> {
       return;
     }
     const subject = article.subject.startsWith(_Post.replyStr) ? article.subject : _Post.replyStr + article.subject;
+
     const contents = await article.contents();
-    const content = this.parseQuote(contents.text, article);
+    const quote = this.parseQuote(contents.text, article);
+
+    content = signature ? `${quote}\n\n-- \n${signature}` : quote;
+
     this.setState({
       group,
       article,
@@ -211,15 +222,15 @@ class _Post extends React.Component<RouteComponentProps<PostRouteParams>, {}> {
                   </div>
                 )}
                 <div className="input-group">
-              <textarea
-                required
-                value={content}
-                onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
-                  this.setState({
-                    content: event.currentTarget.value
-                  })
-                }}
-              />
+                  <textarea
+                    required
+                    value={content}
+                    onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
+                      this.setState({
+                        content: event.currentTarget.value
+                      })
+                    }}
+                  />
                 </div>
                 <div className="input-group">
                   <button className="submit" type="submit" disabled={sending || done}>
