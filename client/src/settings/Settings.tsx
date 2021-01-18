@@ -14,6 +14,8 @@ interface SettingsState {
   url: string,
   port: string,
   groupPrefix: string,
+  author: string,
+  email: string,
 }
 
 //TODO: validate input
@@ -24,6 +26,8 @@ class _Settings extends React.Component<RouteComponentProps, {}> {
     loading: true,
     setting: false,
     done: false,
+    author: "",
+    email: "",
     url: "",
     port: "",
     groupPrefix: "",
@@ -32,6 +36,8 @@ class _Settings extends React.Component<RouteComponentProps, {}> {
   async componentDidMount(): Promise<void> {
 
     this.setState({
+      author: localStorage.getItem('authorName') || "",
+      email: localStorage.getItem('authorEmail') || "",
       url: localStorage.getItem('nntpUrl') || "news.tugraz.at",
       port: localStorage.getItem('nntpPort') || "119",
       groupPrefix: localStorage.getItem('nntpGroupPrefix') || "tu-graz*",
@@ -44,7 +50,7 @@ class _Settings extends React.Component<RouteComponentProps, {}> {
     this.setState({
       setting: true
     });
-    const {url, port, groupPrefix} = this.state;
+    const {author, email, url, port, groupPrefix} = this.state;
     if (!url || !port || !groupPrefix) {
       console.error('Error: cannot set, please fill all fields.');
       return;
@@ -52,6 +58,8 @@ class _Settings extends React.Component<RouteComponentProps, {}> {
     if(url !== localStorage.getItem('nntpUrl')){
       localStorage.clear();
     }
+    localStorage.setItem('authorName', author);
+    localStorage.setItem('authorEmail', email);
     localStorage.setItem('nntpUrl', url);
     localStorage.setItem('nntpPort', port);
     localStorage.setItem('nntpGroupPrefix', groupPrefix);
@@ -61,12 +69,11 @@ class _Settings extends React.Component<RouteComponentProps, {}> {
       setting: false,
       done: true
     });
-    console.log(this.props.history)
     this.props.history.push("/")
   }
 
   render() {
-    const {loading, setting, done, url, port, groupPrefix} = this.state;
+    const {loading, setting, done, author, email, url, port, groupPrefix} = this.state;
     return (
       <div className="app-grid">
         <Helmet>
@@ -77,6 +84,36 @@ class _Settings extends React.Component<RouteComponentProps, {}> {
           {
             loading ? <Loading/> :
               <form className="post-article" onSubmit={(event: FormEvent<HTMLFormElement>) => this.setServer(event)}>
+                <div className="input-group">
+                  <input
+                    required
+                    name="name"
+                    type="text"
+                    title="Your Name"
+                    placeholder="Full Name"
+                    value={author}
+                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                      this.setState({
+                        author: event.currentTarget.value
+                      })
+                    }}
+                  />
+                </div>
+                <div className="input-group">
+                  <input
+                    required
+                    name="url"
+                    type="email"
+                    title="Email Address"
+                    placeholder="Email Address"
+                    value={email}
+                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                      this.setState({
+                        email: event.currentTarget.value
+                      })
+                    }}
+                  />
+                </div>
                 <div className="input-group">
                   <input
                     required

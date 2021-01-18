@@ -117,8 +117,9 @@ class _Post extends React.Component<RouteComponentProps<PostRouteParams>, {}> {
     }
     const authorClass = new Author(author, email);
 
-    localStorage.setItem('authorName', author);
-    localStorage.setItem('authorEmail', email);
+    // removed updating since it is now obligatory to set a name and email in the settings
+    // localStorage.setItem('authorName', author);
+    // localStorage.setItem('authorEmail', email);
     if (article) {
       await article.postFollowup(authorClass, subject, [content]);
     } else {
