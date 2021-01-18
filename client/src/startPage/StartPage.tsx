@@ -20,7 +20,7 @@ export function StartPage() {
   const nntpUrl = localStorage.getItem("nntpUrl");
   const nntpPortStr = localStorage.getItem("nntpPort");
   if (!nntpUrl || !nntpPortStr) {
-    return <Redirect to={"/setServer"}/>;
+    return <Redirect to={"/settings"}/>;
   }
   else{
     return Start();
@@ -81,7 +81,7 @@ function Start() {
   const serverButton: Button = {
     name: "Settings",
     icon: "tools",
-    url: "/setServer"
+    url: "/settings"
   };
 
   const manageButton: Button = {
@@ -147,7 +147,7 @@ function Start() {
         {
           loading ? <Loading/> :
             <Switch>
-              <Route path="/setServer">
+              <Route path="/settings">
               </Route>
               <Route path="/groups">
                 <List data={getGroups().map((group) => ({

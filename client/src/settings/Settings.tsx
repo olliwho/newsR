@@ -7,7 +7,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {Footer} from "../template/Footer";
 import {Server} from "../server/Server";
 
-interface ServerSelectState {
+interface SettingsState {
   loading: boolean;
   setting: boolean;
   done: boolean;
@@ -18,9 +18,9 @@ interface ServerSelectState {
 
 //TODO: validate input
 
-class _ServerSelect extends React.Component<RouteComponentProps, {}> {
+class _Settings extends React.Component<RouteComponentProps, {}> {
 
-  state: Readonly<ServerSelectState> = {
+  state: Readonly<SettingsState> = {
     loading: true,
     setting: false,
     done: false,
@@ -72,7 +72,7 @@ class _ServerSelect extends React.Component<RouteComponentProps, {}> {
         <Helmet>
           <title>newsR</title>
         </Helmet>
-        <Header name={""}/>
+        <Header name={"Settings"}/>
         <div className="app-grid-body">
           {
             loading ? <Loading/> :
@@ -139,4 +139,4 @@ class _ServerSelect extends React.Component<RouteComponentProps, {}> {
   }
 }
 
-export const ServerSelect = withRouter(_ServerSelect);
+export const Settings = withRouter(_Settings);

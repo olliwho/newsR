@@ -80,7 +80,7 @@ export class GroupDetail extends React.Component<RouteComponentProps<GroupRouteP
     const nntpUrl = localStorage.getItem("nntpUrl");
     const nntpPortStr = localStorage.getItem("nntpPort");
     if (!nntpUrl || !nntpPortStr) {
-      return <Redirect to={"/setServer"}/>;
+      return <Redirect to={"/settings"}/>;
     }
 
     const {match} = this.props;

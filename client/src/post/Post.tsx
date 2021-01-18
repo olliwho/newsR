@@ -136,7 +136,7 @@ class _Post extends React.Component<RouteComponentProps<PostRouteParams>, {}> {
     const nntpUrl = localStorage.getItem("nntpUrl");
     const nntpPortStr = localStorage.getItem("nntpPort");
     if (!nntpUrl || !nntpPortStr) {
-      return <Redirect to={"/setServer"}/>;
+      return <Redirect to={"/settings"}/>;
     }
     const {match} = this.props;
     const {group, article, loading, subject, author, email, content, sending, done} = this.state;
