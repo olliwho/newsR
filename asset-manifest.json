@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/newsR/static/css/main.511253d7.chunk.css",
-    "main.js": "/newsR/static/js/main.4334fde5.chunk.js",
-    "main.js.map": "/newsR/static/js/main.4334fde5.chunk.js.map",
+    "main.js": "/newsR/static/js/main.1743beb9.chunk.js",
+    "main.js.map": "/newsR/static/js/main.1743beb9.chunk.js.map",
     "runtime-main.js": "/newsR/static/js/runtime-main.53d02f2f.js",
     "runtime-main.js.map": "/newsR/static/js/runtime-main.53d02f2f.js.map",
     "static/js/2.edaad080.chunk.js": "/newsR/static/js/2.edaad080.chunk.js",
     "static/js/2.edaad080.chunk.js.map": "/newsR/static/js/2.edaad080.chunk.js.map",
     "index.html": "/newsR/index.html",
-    "precache-manifest.fabd2914999010e862313d0c0ead060c.js": "/newsR/precache-manifest.fabd2914999010e862313d0c0ead060c.js",
+    "precache-manifest.1fc5ee301770ffdef319e56669966cba.js": "/newsR/precache-manifest.1fc5ee301770ffdef319e56669966cba.js",
     "service-worker.js": "/newsR/service-worker.js",
     "static/css/main.511253d7.chunk.css.map": "/newsR/static/css/main.511253d7.chunk.css.map",
     "static/js/2.edaad080.chunk.js.LICENSE": "/newsR/static/js/2.edaad080.chunk.js.LICENSE",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.53d02f2f.js",
     "static/js/2.edaad080.chunk.js",
     "static/css/main.511253d7.chunk.css",
-    "static/js/main.4334fde5.chunk.js"
+    "static/js/main.1743beb9.chunk.js"
   ]
 }
