@@ -30,19 +30,21 @@ export class Article implements ArticleInterface {
   public readonly date: Moment;
   public readonly author: Author;
   public hasattachment: string;
+  public size: string;
   public references: ArticleId[] = [];
   public directReference: ArticleId = '';
   public followUps: ArticleInterface[] = [];
   private group: Group;
   private readonly newsieClient: Newsie;
 
-  constructor(id: string, number: number, subject: string, date: Moment, author: Author, hasattachment: string, group: Group, newsieClient: Newsie) {
+  constructor(id: string, number: number, subject: string, date: Moment, author: Author, hasattachment: string, size: string, group: Group, newsieClient: Newsie) {
     this.id = id;
     this.number = number;
     this.subject = subject;
     this.date = date;
     this.author = author;
     this.hasattachment = hasattachment;
+    this.size = size;
     this.group = group;
     this.newsieClient = newsieClient;
   }
@@ -54,16 +56,25 @@ export class Article implements ArticleInterface {
     const date = moment(a.headers.DATE);
     const author = Author.authorFromString(mimeWordsDecode(a.headers.FROM));
     var hasattachment = '';
-    
+    var size = '';
+    var fullSize = 0;
     if (typeof a.metadata !== 'undefined') {
+        fullSize = Number(a.metadata[":bytes"]);
         // We assume that very large entries do have an attachment.
-        if (a.metadata[":bytes"] > 10000) {
-            hasattachment = ' - 📎';
+        if (fullSize > 10000) {
+            hasattachment = '📎';
         }
+
+        if (fullSize > 1024*1024)
+            size = (fullSize / (1024*1024)).toFixed(2).toString() + " MB";
+        else if (fullSize > 1024)
+            size = (fullSize / (1024)).toFixed(2).toString() + " KB";
+        else
+            size = fullSize.toString() + " B";
     }
     
     const article = new Article(a.headers['MESSAGE-ID'], a.articleNumber, mimeWordsDecode(a.headers.SUBJECT), date,
-      author, hasattachment, group, newsieClient);
+      author, hasattachment, size, group, newsieClient);
     article.setReferences(a.headers.REFERENCES);
     return article;
   }
