@@ -256,6 +256,8 @@ th {
       overflow-y: auto;
     }
   }*/
+
+
   /*Sidebar-Thunderbirdstyle*/
 
  .table {
@@ -265,8 +267,6 @@ th {
   .sidebar-content {
     height: $bodyHeight;
     display: grid;
-    //grid-template-rows: repeat(auto-fit, auto);
-    //grid-template-columns: repeat(auto-fit, auto);
     grid-template-columns: 0.5fr 0.7fr 1fr;
     grid-template-rows: 1.6fr 2.4fr;
     gap: 5px 5px;
@@ -278,6 +278,14 @@ th {
   .sidebar-content-content-1 { grid-area: Content-1; background: $sidebarBg; overflow-y: scroll;}
   .sidebar-content-content-2 { grid-area: Content-2; overflow-y: auto;}
 
+
+  .fieldLabel{
+    display: inline-block;
+    width: 7.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-weight: 500;
+  }
 
   .app-grid {
 

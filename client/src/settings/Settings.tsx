@@ -89,91 +89,97 @@ class _Settings extends React.Component<RouteComponentProps, {}> {
             loading ? <Loading/> :
               <form className="post-article" onSubmit={(event: FormEvent<HTMLFormElement>) => this.setServer(event)}>
                 <div className="input-group">
-                  <input
-                    required
-                    name="name"
-                    type="text"
-                    title="Your Name"
-                    placeholder="Full Name"
-                    value={author}
-                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                      this.setState({
-                        author: event.currentTarget.value
-                      })
-                    }}
+                  <label className="fieldLabel" htmlFor="name">Full Name: </label>
+                    <input
+                      required
+                      name="name"
+                      type="text"
+                      title="Your Name"
+                      placeholder="Full Name"
+                      value={author}
+                      onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                        this.setState({
+                          author: event.currentTarget.value
+                        })
+                      }}
+                    />
+                </div>
+                <div className="input-group">
+                  <label className="fieldLabel" htmlFor="url">E-Mail Address:</label>
+                    <input
+                      required
+                      name="url"
+                      type="email"
+                      title="E-mail Address"
+                      placeholder="E-mail Address"
+                      value={email}
+                      onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                        this.setState({
+                          email: event.currentTarget.value
+                        })
+                      }}
+                    />
+                </div>
+                <div className="input-group">
+                  <label className="fieldLabel" htmlFor="url">Server URL:</label>
+                      <input
+                        required
+                        name="url"
+                        type="text"
+                        title="Server URL like news.tugraz.at"
+                        placeholder="Server URL"
+                        value={url}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                          this.setState({
+                            url: event.currentTarget.value
+                          })
+                        }}
                   />
                 </div>
                 <div className="input-group">
-                  <input
-                    required
-                    name="url"
-                    type="email"
-                    title="Email Address"
-                    placeholder="Email Address"
-                    value={email}
-                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                      this.setState({
-                        email: event.currentTarget.value
-                      })
-                    }}
+                  <label className="fieldLabel" htmlFor="port">Server Port:</label>
+                      <input
+                        required
+                        name="port"
+                        type="text"
+                        title="Server Port like 119"
+                        placeholder="Server Port"
+                        value={port}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                          this.setState({
+                            port: event.currentTarget.value
+                          })
+                        }}
                   />
                 </div>
                 <div className="input-group">
-                  <input
-                    required
-                    name="url"
-                    type="text"
-                    title="Server URL like news.tugraz.at"
-                    placeholder="Server URL like news.tugraz.at"
-                    value={url}
-                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                      this.setState({
-                        url: event.currentTarget.value
-                      })
-                    }}
+                  <label className="fieldLabel" htmlFor="prefix">Group Prefix:</label>
+                      <input
+                        required
+                        name="prefix"
+                        type="text"
+                        title="Group Prefix like tu-graz*"
+                        placeholder="Group Prefix"
+                        value={groupPrefix}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                          this.setState({
+                            groupPrefix: event.currentTarget.value
+                          })
+                        }}
                   />
                 </div>
                 <div className="input-group">
-                  <input
-                    required
-                    name="port"
-                    type="text"
-                    title="Server Port like 119"
-                    placeholder="Server Port like 119"
-                    value={port}
-                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                      this.setState({
-                        port: event.currentTarget.value
-                      })
-                    }}
-                  />
-                </div>
-                <div className="input-group">
-                  <input
-                    required
-                    name="prefix"
-                    type="text"
-                    title="Group Prefix like tu-graz*"
-                    placeholder="Group Prefix like tu-graz*"
-                    value={groupPrefix}
-                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                      this.setState({
-                        groupPrefix: event.currentTarget.value
-                      })
-                    }}
-                  />
-                </div>
-                <div className="input-group">
-                  <textarea
-                    name="signature"
-                    title="Signature"
-                    placeholder="Your Signature..."
-                    value={signature}
-                    onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
-                      this.setState({
-                        signature: event.currentTarget.value
-                      })
-                    }}
+                  <label className="fieldLabel" htmlFor="signature">Signature:</label>
+                      <textarea
+                        name="signature"
+                        title="Signature"
+                        placeholder="Your Signature..."
+                        value={signature}
+                        onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
+                          this.setState({
+                            signature: event.currentTarget.value
+                          })
+                        }}
                   />
                 </div>
                 <div className="input-group">

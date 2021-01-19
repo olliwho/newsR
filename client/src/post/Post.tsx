@@ -78,7 +78,6 @@ class _Post extends React.Component<RouteComponentProps<PostRouteParams>, {}> {
       });
       return;
     }
-    console.log('hered1')
     const article = await group.article(parseInt(match.params.number));
     if (!article) {
       this.setState({

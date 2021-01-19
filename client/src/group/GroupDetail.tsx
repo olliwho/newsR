@@ -15,6 +15,7 @@ import {Helmet} from "react-helmet";
 import {addReadArticle, getReadArticles} from "../localStorage/localStorage";
 import {Button, Header} from "../template/Header";
 import {Footer} from "../template/Footer";
+import {IconProp} from "@fortawesome/fontawesome-svg-core";
 export type ArticleId = string;
 
 interface State {
@@ -93,7 +94,7 @@ export class GroupDetail extends React.Component<RouteComponentProps<GroupRouteP
       this.setState({filteredThreads})
     };
 
-    const articleListData = group === null
+    const articleTableData = group === null
       ? []
       : filteredThreads.map(article => ({
         bold: !this.state.readArticles.find(a => a === article.id),
@@ -106,18 +107,53 @@ export class GroupDetail extends React.Component<RouteComponentProps<GroupRouteP
         referenceObject: article
       }));
 
-    const buttons: Button[] = [
-      {
-        name: "Write",
-        icon: "pencil-alt",
-        url: group === null ? "" : `/post/${group.name}`
-      }
+      const articleListData = group === null
+        ? []
+        : filteredThreads.map(article => ({
+          title: article.subject,
+          subtitle: `${article.author.name} - ${article.date.format('DD.MM.YY HH:mm')}  ${article.hasattachment} `,
+          url: `${match.url}/${article.number}`,
+          bold: !this.state.readArticles.find(a => a === article.id),
+          onPress: () => {
+            addReadArticle(group.name, article.id);
+            this.setState({readArticles: this.state.readArticles.concat(article.id)})
+          }
+        }));
+
+    const buttons1: Button[] = [
+          {
+            name: "Write",
+            icon: "pencil-alt",
+            url: group === null ? "" : `/post/${group.name}`
+          },
+          {
+            name: "Startpage",
+            icon: "home",
+            url: "/"
+          }
+    ];
+    const buttons2: Button[] = [
+          {
+            name: "Write",
+            icon: "pencil-alt",
+            url: group === null ? "" : `/post/${group.name}`
+          },
+          {
+            name: "Back",
+            icon: "arrow-left",
+            url: group === null ? "" : `/groups/${group.name}`
+          },
+          {
+            name: "Startpage",
+            icon: "home",
+            url: "/"
+          }
     ];
 
 
     const groupName = group === null ? match.params.name : group.name;
-    const headerWithSearch = <Header name={groupName} searchBar={{filter}} url={match.url} buttons={buttons}/>;
-    const headerWithoutSearch = <Header name={groupName} url={match.url} buttons={buttons}/>;
+    const headerWithSearch = <Header name={groupName} searchBar={{filter}} url={match.url} buttons={buttons1}/>;
+    const headerWithoutSearch = <Header name={groupName} url={match.url} buttons={buttons2}/>;
 
     const isGroupSubscribed = (groupName: string) => {
         return this.state.subscribedGroupsName.includes(groupName);
@@ -163,8 +199,7 @@ export class GroupDetail extends React.Component<RouteComponentProps<GroupRouteP
                                       || null}/>
                       }/>
                       <Route path={`${match.path}`}>
-                        <Table onPressSort={(sortColumn, ascending) => this.setState({sortColumn: sortColumn, ascending: ascending})} sortColumn={this.state.sortColumn} ascending={this.state.ascending} data={articleListData} columns={[new TableColumn("Subject", 0, "subject"), new TableColumn("Author", 1, "author"), new TableColumn("Date", 2, "date"), new TableColumn("Size", 0, "size"), new TableColumn("📎", 0, "hasattachment")]} urlColumn="url"/>
-
+                        <List data={articleListData}/>
                       </Route>
                     </Switch>
                     :
@@ -186,7 +221,7 @@ export class GroupDetail extends React.Component<RouteComponentProps<GroupRouteP
                                                     }
                                                  }))}/>}
 
-                      content1={<Table onPressSort={(sortColumn, ascending) => this.setState({sortColumn: sortColumn, ascending: ascending})} sortColumn={this.state.sortColumn} ascending={this.state.ascending} data={articleListData} columns={[new TableColumn("Subject", 0, "subject"), new TableColumn("Author", 1, "author"), new TableColumn("Date", 2, "date"), new TableColumn("Size", 0, "size"), new TableColumn("📎", 0, "hasattachment")]} urlColumn="url"/>}
+                      content1={<Table onPressSort={(sortColumn, ascending) => this.setState({sortColumn: sortColumn, ascending: ascending})} sortColumn={this.state.sortColumn} ascending={this.state.ascending} data={articleTableData} columns={[new TableColumn("Subject", 0, "subject"), new TableColumn("Author", 1, "author"), new TableColumn("Date", 2, "date"), new TableColumn("Size", 0, "size"), new TableColumn("📎", 0, "hasattachment")]} urlColumn="url"/>}
 
                       content2={
                         <Switch>
