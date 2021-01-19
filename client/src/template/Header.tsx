@@ -27,7 +27,7 @@ export function Header(props: {
       <div className="search-bar">
         <Heading name={props.name} subtitle={props.subtitle} url={props.url}/>
         {searchBar && searchBar.filter &&
-        <input className="search" type="text" placeholder="Search Headers"
+        <input className="search" type="text" placeholder="Search Message Headers…"
                onChange={(e) => searchBar.filter(e.target.value.toLowerCase())}/>
         }
       </div>

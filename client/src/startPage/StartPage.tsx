@@ -96,17 +96,7 @@ function Start() {
     url: "/"
   };
 
-  const allGroupsButton: Button = {
-    name: "All Groups",
-    icon: "list",
-    url: "/groups"
-  };
-
-  const groupButtons: Button[] = [serverButton, manageButton, subscriptionButton];
-
-  const subscriptionButtons: Button[] = [serverButton, manageButton, allGroupsButton];
-
-  const manageButtons: Button[] = [serverButton, allGroupsButton, subscriptionButton];
+  const newButtons: Button[] = [serverButton, manageButton, subscriptionButton];
 
   const isGroupFiltered = (group: Group) => {
     const {filterText} = state;
@@ -132,17 +122,7 @@ function Start() {
       <Helmet>
         <title>newsR - {nntpUrl}</title>
       </Helmet>
-      <Switch>
-        <Route path="/groups">
-          <Header name={nntpUrl} searchBar={{filter}} buttons={groupButtons}/>
-        </Route>
-        <Route path="/groups-manage">
-          <Header name={nntpUrl} searchBar={{filter}} buttons={manageButtons}/>
-        </Route>
-        <Route path="/">
-          <Header name={nntpUrl} searchBar={{filter}} buttons={subscriptionButtons}/>
-        </Route>
-      </Switch>
+      <Header name={nntpUrl} searchBar={{filter}} buttons={newButtons}/>
       <div className="app-grid-body">
         {
           loading ? <Loading/> :
