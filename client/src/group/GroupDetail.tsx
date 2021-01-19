@@ -163,7 +163,8 @@ export class GroupDetail extends React.Component<RouteComponentProps<GroupRouteP
                                       || null}/>
                       }/>
                       <Route path={`${match.path}`}>
-                        <Table onPressSort={(sortColumn, ascending) => this.setState({sortColumn: sortColumn, ascending: ascending})} sortColumn={this.state.sortColumn} ascending={this.state.ascending} data={articleListData} columns={[new TableColumn("Subject", 0, "subject"), new TableColumn("Author", 1, "author"), new TableColumn("Date", 2, "date")]} urlColumn="url"/>
+                        <Table onPressSort={(sortColumn, ascending) => this.setState({sortColumn: sortColumn, ascending: ascending})} sortColumn={this.state.sortColumn} ascending={this.state.ascending} data={articleListData} columns={[new TableColumn("Subject", 0, "subject"), new TableColumn("Author", 1, "author"), new TableColumn("Date", 2, "date"), new TableColumn("Size", 0, "size"), new TableColumn("📎", 0, "hasattachment")]} urlColumn="url"/>
+
                       </Route>
                     </Switch>
                     :
@@ -185,7 +186,8 @@ export class GroupDetail extends React.Component<RouteComponentProps<GroupRouteP
                                                     }
                                                  }))}/>}
 
-                      content1={<Table onPressSort={(sortColumn, ascending) => this.setState({sortColumn: sortColumn, ascending: ascending})} sortColumn={this.state.sortColumn} ascending={this.state.ascending} data={articleListData} columns={[new TableColumn("Subject", 0, "subject"), new TableColumn("Author", 1, "author"), new TableColumn("Date", 2, "date")]} urlColumn="url"/>}
+                      content1={<Table onPressSort={(sortColumn, ascending) => this.setState({sortColumn: sortColumn, ascending: ascending})} sortColumn={this.state.sortColumn} ascending={this.state.ascending} data={articleListData} columns={[new TableColumn("Subject", 0, "subject"), new TableColumn("Author", 1, "author"), new TableColumn("Date", 2, "date"), new TableColumn("Size", 0, "size"), new TableColumn("📎", 0, "hasattachment")]} urlColumn="url"/>}
+
                       content2={
                         <Switch>
                           <Route path={`${match.path}/:number`} render={props =>
