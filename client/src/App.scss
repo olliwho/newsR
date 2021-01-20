@@ -95,7 +95,7 @@ table {
     border-spacing: 0px;
 }
 td {
-  border: 1px solid #ffffff;
+  border: 1px solid $sidebarBg;
 }
 
 th {
@@ -103,6 +103,16 @@ th {
   border-left: 1px solid #ffffff;
   border-bottom: 2px solid #dddddd;
   background: #dddddd;
+  white-space: nowrap;
+
+}
+
+#subject, #author, #date{
+    text-align: left;
+}
+
+#size, #attachments{
+    text-align: right;
 }
 
 .active-article {
@@ -153,6 +163,10 @@ th {
       font-weight: bold;
 }
 
+.table-entry {
+    vertical-align: top;
+}
+
   .thread-detail {
 
     .article-detail {
@@ -192,6 +206,8 @@ th {
       .header {
         display: flex;
         align-items: center;
+        position: sticky;
+        top: 0px;
       }
     }
 
@@ -237,26 +253,6 @@ th {
     text-align: center;
     color: $primaryGreen
   }
-  /*Sidebar-Oldstyle*/
- /* .sidebar-content {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
-    grid-template-rows: auto;
-    grid-template-areas: "sidebar content";
-    height: $bodyHeight;
-
-    .sidebar-content-sidebar {
-      grid-area: sidebar;
-      background: $sidebarBg;
-      overflow-y: auto;
-    }
-
-    .sidebar-content-content {
-      grid-area: content;
-      overflow-y: auto;
-    }
-  }*/
-
 
   /*Sidebar-Thunderbirdstyle*/
 
@@ -269,14 +265,14 @@ th {
     display: grid;
     grid-template-columns: 0.5fr 0.7fr 1fr;
     grid-template-rows: 1.6fr 2.4fr;
-    gap: 5px 5px;
+    gap: 3px 3px;
     grid-template-areas:
       "Sidebar Content-1 Content-1"
       "Sidebar Content-2 Content-2";
   }
-  .sidebar-content-sidebar { grid-area: Sidebar; background: $sidebarBg; overflow-y: scroll; border-right: solid 1px lighten($fontColor, 50%);}
-  .sidebar-content-content-1 { grid-area: Content-1; background: $sidebarBg; overflow-y: scroll;}
-  .sidebar-content-content-2 { grid-area: Content-2; overflow-y: auto;}
+  .sidebar-content-sidebar { grid-area: Sidebar; overflow-y: scroll; border-right: solid 1px lighten($fontColor, 50%);}
+  .sidebar-content-content-1 { grid-area: Content-1; overflow-y: scroll;}
+  .sidebar-content-content-2 { grid-area: Content-2; overflow-y: auto; border-top: solid 1px lighten($fontColor, 10%);}
 
 
   .fieldLabel{
@@ -381,21 +377,34 @@ th {
   }
 }
 
+.settings{
+  display:flex;
+  justify-content: center;
+
+}
+
 form.post-article {
   width: 100%;
   max-width: 40rem;
 
   hr {
-    width: 80%;
+    width: 100%;
     margin-top: 2.5em;
     margin-bottom: 1.0em;
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
   }
 
   .settings-group-title {
     font-size: $biggerFontSize;
+    font-weight: 500;
     display: flex;
     justify-content: center;
     margin: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+
   }
 
   .input-group {
