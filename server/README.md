@@ -1,10 +1,10 @@
-newsR-ws2nntp
+newsR-ws4nntp
 =============
 
-deployment on heroku
+Deployment on Heroku
 --------------------
 
-run `git subtree push --prefix server heroku master`
+Run `git subtree push --prefix server heroku master`
 
 or 
 

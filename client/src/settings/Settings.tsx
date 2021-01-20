@@ -88,45 +88,14 @@ class _Settings extends React.Component<RouteComponentProps, {}> {
           {
             loading ? <Loading/> :
               <form className="post-article" onSubmit={(event: FormEvent<HTMLFormElement>) => this.setServer(event)}>
-                <div className="input-group">
-                  <label className="fieldLabel" htmlFor="name">Full Name: </label>
-                    <input
-                      required
-                      name="name"
-                      type="text"
-                      title="Your Name"
-                      placeholder="Full Name"
-                      value={author}
-                      onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                        this.setState({
-                          author: event.currentTarget.value
-                        })
-                      }}
-                    />
-                </div>
-                <div className="input-group">
-                  <label className="fieldLabel" htmlFor="url">E-Mail Address:</label>
-                    <input
-                      required
-                      name="url"
-                      type="email"
-                      title="E-mail Address"
-                      placeholder="E-mail Address"
-                      value={email}
-                      onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                        this.setState({
-                          email: event.currentTarget.value
-                        })
-                      }}
-                    />
-                </div>
+                <h1 className="settings-group-title">Server</h1>
                 <div className="input-group">
                   <label className="fieldLabel" htmlFor="url">Server URL:</label>
                       <input
                         required
                         name="url"
                         type="text"
-                        title="Server URL like news.tugraz.at"
+                        title="Server URL"
                         placeholder="Server URL"
                         value={url}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -142,7 +111,7 @@ class _Settings extends React.Component<RouteComponentProps, {}> {
                         required
                         name="port"
                         type="text"
-                        title="Server Port like 119"
+                        title="Server Port"
                         placeholder="Server Port"
                         value={port}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -158,7 +127,7 @@ class _Settings extends React.Component<RouteComponentProps, {}> {
                         required
                         name="prefix"
                         type="text"
-                        title="Group Prefix like tu-graz*"
+                        title="Group Prefix"
                         placeholder="Group Prefix"
                         value={groupPrefix}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -166,6 +135,40 @@ class _Settings extends React.Component<RouteComponentProps, {}> {
                             groupPrefix: event.currentTarget.value
                           })
                         }}
+                  />
+                </div>
+                <hr/>
+                <h1 className="settings-group-title">User</h1>
+                <div className="input-group">
+                  <label className="fieldLabel" htmlFor="name">Full Name: </label>
+                  <input
+                    required
+                    name="name"
+                    type="text"
+                    title="Your Name"
+                    placeholder="Full Name"
+                    value={author}
+                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                      this.setState({
+                        author: event.currentTarget.value
+                      })
+                    }}
+                  />
+                </div>
+                <div className="input-group">
+                  <label className="fieldLabel" htmlFor="url">E-Mail Address:</label>
+                  <input
+                    required
+                    name="url"
+                    type="email"
+                    title="E-mail Address"
+                    placeholder="E-mail Address"
+                    value={email}
+                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                      this.setState({
+                        email: event.currentTarget.value
+                      })
+                    }}
                   />
                 </div>
                 <div className="input-group">
@@ -186,9 +189,10 @@ class _Settings extends React.Component<RouteComponentProps, {}> {
                   <button className="submit" type="submit" disabled={setting}>
                     {
                       setting ? <FontAwesomeIcon icon="spinner" spin />
-                        : (done ? "Set!" : "Set")
+                        : (done ? "Saved!" : "Save")
                     }
                   </button>
+                  <button className="back" type="reset" onClick={() => this.props.history.goBack()}>Cancel</button>
                 </div>
               </form>
           }

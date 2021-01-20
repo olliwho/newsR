@@ -15,7 +15,6 @@ import {Helmet} from "react-helmet";
 import {addReadArticle, getReadArticles} from "../localStorage/localStorage";
 import {Button, Header} from "../template/Header";
 import {Footer} from "../template/Footer";
-import {IconProp} from "@fortawesome/fontawesome-svg-core";
 export type ArticleId = string;
 
 interface State {

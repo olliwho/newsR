@@ -385,6 +385,19 @@ form.post-article {
   width: 100%;
   max-width: 40rem;
 
+  hr {
+    width: 80%;
+    margin-top: 2.5em;
+    margin-bottom: 1.0em;
+  }
+
+  .settings-group-title {
+    font-size: $biggerFontSize;
+    display: flex;
+    justify-content: center;
+    margin: 1rem;
+  }
+
   .input-group {
     display: flex;
     justify-content: center;
