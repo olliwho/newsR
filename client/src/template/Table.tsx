@@ -40,29 +40,22 @@ export function Table<T extends TableType<T>>(props: {
   const {sortColumn} = props;
   const {ascending} = props;
 
-  function onPressSortExec(sortColumnNew:string) {
-    var newAscending:boolean = false;
-    var newSortColumn:string = sortColumn;
-    if (sortColumnNew !== sortColumn)
-    {
-        newAscending = true;
-        newSortColumn = sortColumnNew;
+  function onPressSortExec(newSortColumn:string) {
+
+    const sortOrder = localStorage.getItem("ascending");
+    const oldAscending = sortOrder ? JSON.parse(sortOrder) : true;
+    const oldSortColumn = localStorage.getItem("sortColumn") || "";
+
+    if (newSortColumn !== oldSortColumn) {
+      localStorage.setItem("sortColumn", newSortColumn);
+      localStorage.setItem("ascending", "true");
+      onPressSort(newSortColumn, true);
     }
-    else
-        newAscending = !ascending;
-
-    onPressSort(newSortColumn, newAscending);
+    else {
+      localStorage.setItem("ascending", JSON.stringify(!oldAscending));
+      onPressSort(oldSortColumn, !oldAscending);
+    }
   }
-
-
-
-
-
-
-
-
-
-
 
 
   const header = columns.map((column, i) => {

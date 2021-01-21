@@ -73,7 +73,11 @@ export class GroupDetail extends React.Component<RouteComponentProps<GroupRouteP
     const threads = await group.threads();
     const readArticles = getReadArticles(group.name);
 
-    this.setState({loading: false, group, groups, subscribedGroupsName, threads, readArticles, filteredThreads: threads});
+    const sortOrder = localStorage.getItem("ascending");
+    const ascending =  sortOrder ? JSON.parse(sortOrder) : true;
+    const sortColumn = localStorage.getItem("sortColumn") || "";
+
+    this.setState({loading: false, group, groups, subscribedGroupsName, threads, readArticles, filteredThreads: threads, sortColumn, ascending});
   }
 
   render() {
