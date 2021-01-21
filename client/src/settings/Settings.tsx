@@ -87,8 +87,9 @@ class _Settings extends React.Component<RouteComponentProps, {}> {
         <div className="app-grid-body">
           {
             loading ? <Loading/> :
+            <div className="settings">
               <form className="post-article" onSubmit={(event: FormEvent<HTMLFormElement>) => this.setServer(event)}>
-                <h1 className="settings-group-title">Server</h1>
+                <h1 className="settings-group-title">Server Details</h1>
                 <div className="input-group">
                   <label className="fieldLabel" htmlFor="url">Server URL:</label>
                       <input
@@ -103,8 +104,9 @@ class _Settings extends React.Component<RouteComponentProps, {}> {
                             url: event.currentTarget.value
                           })
                         }}
-                  />
+                      />
                 </div>
+
                 <div className="input-group">
                   <label className="fieldLabel" htmlFor="port">Server Port:</label>
                       <input
@@ -138,7 +140,7 @@ class _Settings extends React.Component<RouteComponentProps, {}> {
                   />
                 </div>
                 <hr/>
-                <h1 className="settings-group-title">User</h1>
+                <h1 className="settings-group-title">User Details</h1>
                 <div className="input-group">
                   <label className="fieldLabel" htmlFor="name">Full Name: </label>
                   <input
@@ -195,8 +197,10 @@ class _Settings extends React.Component<RouteComponentProps, {}> {
                   <button className="back" type="reset" onClick={() => this.props.history.goBack()}>Cancel</button>
                 </div>
               </form>
+              </div>
           }
         </div>
+
         <Footer/>
       </div>
     );

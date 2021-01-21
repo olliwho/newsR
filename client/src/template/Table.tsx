@@ -2,7 +2,7 @@ import React from "react";
 import {TableEntry} from "./TableEntry";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
-import {faChevronUp, faChevronDown} from "@fortawesome/free-solid-svg-icons";
+import {faChevronUp, faChevronDown, faSort} from "@fortawesome/free-solid-svg-icons";
 
 export class TableColumn {
     public readonly name: string
@@ -54,10 +54,21 @@ export function Table<T extends TableType<T>>(props: {
     onPressSort(newSortColumn, newAscending);
   }
 
+
+
+
+
+
+
+
+
+
+
+
   const header = columns.map((column, i) => {
         const value = column.name
         const nativeName = column.nativeName
-        const sortIcon = (column.nativeName === sortColumn) ? (ascending) ? <FontAwesomeIcon icon={faChevronUp} /> : <FontAwesomeIcon icon={faChevronDown} /> : ""
+        const sortIcon = (column.nativeName === sortColumn) ? (ascending) ? <FontAwesomeIcon icon={faChevronUp} /> : <FontAwesomeIcon icon={faChevronDown} /> : <FontAwesomeIcon icon={faSort} />
         return <th id={nativeName} onClick={() => onPressSortExec(nativeName)}>{value} {sortIcon}</th>
     });
 
