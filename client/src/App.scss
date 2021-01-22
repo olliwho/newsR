@@ -170,8 +170,7 @@ th {
   .thread-detail {
 
     .article-detail {
-      // show \n as breaks: https://stackoverflow.com/a/44413780/2306363
-      white-space: pre-line;
+      white-space: pre;
 
       .article-detail-author {
         font-size: $smallerFontSoze;
