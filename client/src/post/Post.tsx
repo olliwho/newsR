@@ -3,12 +3,11 @@ import {Server} from "../server/Server";
 import {Author} from "../author/Author";
 import {Redirect, RouteComponentProps, withRouter} from "react-router-dom";
 import {Group} from "../group/Group";
-import {Article, ArticleInterface} from "../article/Article";
+import {Article} from "../article/Article";
 import {Loading} from "../template/Loading";
 import {Helmet} from "react-helmet";
 import {Header} from "../template/Header";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {Content} from "../article/Content";
 
 interface State {
   loading: boolean;
@@ -90,7 +89,7 @@ class _Post extends React.Component<RouteComponentProps<PostRouteParams>, {}> {
     const subject = article.subject.startsWith(_Post.replyStr) ? article.subject : _Post.replyStr + article.subject;
 
     const contents = await article.contents();
-    const quote = this.parseQuote(contents.text, article);
+    const quote = Article.parseQuote(contents.text, article);
 
     content = signature ? `${quote}\n\n-- \n${signature}` : quote;
 
@@ -101,14 +100,6 @@ class _Post extends React.Component<RouteComponentProps<PostRouteParams>, {}> {
       content,
       loading: false
     });
-  }
-
-  private parseQuote(contents: Content[], article: ArticleInterface): string {
-    let quoteString = `On ${article.date.format("YYYY-MM-DD HH:mm")}, ${article.author.name} wrote:\n`;
-    contents.forEach(function (content) {
-      quoteString += (">".repeat(content.citationLevel+1) + " " + content.text + "\n")
-    });
-    return quoteString;
   }
 
   async timeout(delay: number) {

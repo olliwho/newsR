@@ -1,4 +1,4 @@
-import {ArticleId, ArticleInterface} from "./Article";
+import {Article, ArticleId, ArticleInterface} from "./Article";
 import React, {ReactNode} from "react";
 import {Loading} from "../template/Loading";
 import {Content} from "./Content";
@@ -62,16 +62,9 @@ export class ArticleDetail extends React.Component<Props, State> {
     return <div className="nested-content">{this.nestContent(level - 1, text)}</div>;
   }
 
-  private nestQuote(contents: Content[], article: ArticleInterface): string {
-    let quoteString = `On ${article.date.format(`YYYY-MM-DD HH:mm`)}, ${article.author.name} wrote:\n`;
-    contents.forEach(function (content) {
-      quoteString += (`>`.repeat(content.citationLevel+1) + ` ${content.text}\n`)
-    });
-    return quoteString;
-  }
 
-  private createMailBody(contents: Content[], article: ArticleInterface): string {
-    const quote = this.nestQuote(contents, article);
+  private static createMailBody(contents: Content[], article: ArticleInterface): string {
+    const quote = Article.parseQuote(contents, article);
     const signature = localStorage.getItem('signature')
     return encodeURIComponent(signature ? `${quote}\n\n-- \n${signature}` : quote);
   }
@@ -97,7 +90,7 @@ export class ArticleDetail extends React.Component<Props, State> {
           }
           <div className="article-buttons">
             <div className="article-button">
-              <a href={`mailto:${article.author.email}?subject=${encodeURIComponent(article.subject)}&body=${this.createMailBody(contents, article)}`}
+              <a href={`mailto:${article.author.email}?subject=${encodeURIComponent(article.subject)}&body=${ArticleDetail.createMailBody(contents, article)}`}
                  className="no-link" onClick={e => e.stopPropagation()}>
                 <IconButton icon="envelope">Reply</IconButton>
               </a>

@@ -185,4 +185,16 @@ export class Article implements ArticleInterface {
   public async postFollowup(author: Author, subject: string, body: string[]): Promise<void> {
     await this.group.post(author, subject, body, this.references.concat(this.id));
   }
+
+  public static parseQuote(contents: Content[], article: ArticleInterface): string {
+    let quoteString = `On ${article.date.format(`YYYY-MM-DD HH:mm`)}, ${article.author.name} wrote:\n`;
+    for(let i = 0; i < contents.length; i++) {
+      const content = contents[i];
+      if( content.text === "-- ") {
+        break;
+      }
+      quoteString += (`>`.repeat(content.citationLevel+1) + ` ${content.text}\n`)
+    }
+    return quoteString;
+  }
 }
