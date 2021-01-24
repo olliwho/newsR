@@ -85,18 +85,18 @@ function Start() {
   };
 
   const manageButton: Button = {
-    name: "Manage groups",
+    name: "Manage Groups",
     icon: "cog",
     url: "/groups-manage"
   };
 
   const subscriptionButton: Button = {
-    name: "Subscriptions",
+    name: "My Groups",
     icon: "home",
     url: "/"
   };
 
-  const newButtons: Button[] = [serverButton, manageButton, subscriptionButton];
+  const newButtons: Button[] = [serverButton, manageButton];
 
   const isGroupFiltered = (group: Group) => {
     const {filterText} = state;
@@ -137,6 +137,7 @@ function Start() {
                 }))}/>
               </Route>
               <Route path="/groups-manage">
+                <div className="no-thread-text">Subscribe and unsubscribe from newsgroups.</div>
                 <List data={getGroups().map((group) => ({
                   title: group.name,
                   subtitle: group.description,
