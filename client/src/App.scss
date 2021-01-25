@@ -98,12 +98,20 @@ td {
   border: 1px solid $sidebarBg;
 }
 
+#iconStyle.svg-inline--fa.fa-w-10 {
+     transform: rotate(90deg) scaleY(-1);
+     position: sticky;
+     z-index: -1;
+   }
+
 th {
   border-right: 1px solid #ffffff;
   border-left: 1px solid #ffffff;
   border-bottom: 2px solid #dddddd;
   background: #dddddd;
   white-space: nowrap;
+  position: sticky;
+  top: 0;
 
 }
 
@@ -208,7 +216,9 @@ th {
         position: sticky;
         top: 0px;
       }
+
     }
+
 
     .collapsible-thread-list {
       .header {
@@ -373,6 +383,8 @@ th {
 .attachments {
   img {
     max-width: 100%;
+    position: relative;
+    z-index: -10;
   }
 }
 

@@ -1,5 +1,5 @@
 import React from "react";
-import {Article} from "./Article";
+import {ArticleInterface} from "./Article";
 import {RouteComponentProps} from "react-router-dom";
 import {Group} from "../group/Group";
 import {Helmet} from "react-helmet";
@@ -18,7 +18,7 @@ interface ArticleDetailRouteParams {
 
 interface Props extends RouteComponentProps<ArticleDetailRouteParams> {
   group: Group;
-  article: Article | null;
+  article: ArticleInterface | null;
 }
 
 export class ThreadDetail extends React.Component<Props, State> {
@@ -35,6 +35,7 @@ export class ThreadDetail extends React.Component<Props, State> {
         <Helmet>
           <title>newsR - {article?.subject}</title>
         </Helmet>
+
         <ArticleDetail baseUrl={baseUrl} groupName={match.params.name} article={article} showContent={true}/>
         <CollapsibleThreadList baseUrl={baseUrl} groupName={match.params.name} articles={article?.followUps}/>
       </div>

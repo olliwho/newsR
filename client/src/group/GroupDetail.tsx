@@ -8,7 +8,7 @@ import Media from "react-media";
 import {LARGE_SCREEN_QUERY, SMALL_SCREEN_QUERY} from "../template/Constants";
 import {getSubscribedGroups} from "../localStorage/localStorage";
 import {Loading} from "../template/Loading";
-import {Article} from "../article/Article";
+import {Article, ArticleInterface} from "../article/Article";
 import {List} from "../template/List";
 import {Table, TableColumn} from "../template/Table";
 import {Helmet} from "react-helmet";
@@ -25,7 +25,7 @@ interface State {
   threads: Article[];
   readArticles: string[];
   filteredThreads: Article[];
-  activeArticle: ArticleId;
+  activeArticle?: ArticleInterface;
   sortColumn: string;
   ascending: boolean;
 }
@@ -34,6 +34,11 @@ export interface GroupRouteParams {
   name: string;
 }
 
+type LeveledArtilceInterface = {
+    article:ArticleInterface,
+    level:number,
+    sortKey: string
+};
 
 
 export class GroupDetail extends React.Component<RouteComponentProps<GroupRouteParams>, State> {
@@ -46,8 +51,8 @@ export class GroupDetail extends React.Component<RouteComponentProps<GroupRouteP
     threads: [],
     filteredThreads: [],
     readArticles: [],
-    activeArticle: "",
-    sortColumn: "",
+    activeArticle: undefined,
+    sortColumn: "date",
     ascending: true
   };
 
@@ -80,6 +85,49 @@ export class GroupDetail extends React.Component<RouteComponentProps<GroupRouteP
     this.setState({loading: false, group, groups, subscribedGroupsName, threads, readArticles, filteredThreads: threads, sortColumn, ascending});
   }
 
+    private getTableData()
+    {
+        const {match} = this.props;
+        const {group, filteredThreads} = this.state;
+        if (group === null)
+            return [];
+        else
+        {
+            var unnestThreads: LeveledArtilceInterface[] = [];
+            for (const [index, article] of filteredThreads.entries()) {
+                unnestThreads = unnestThreads.concat(this.unnestThread(article));
+            }
+
+            return unnestThreads.map(leveldarticle => ({
+                level: leveldarticle.level,
+                sortKey: leveldarticle.sortKey,
+                bold: !this.state.readArticles.find(a => a === leveldarticle.article.id),
+                class: this.state.activeArticle === leveldarticle.article ? "active-article" : "",
+                url: `${match.url}/${leveldarticle.article.number}`,
+                onPress: () => {
+                addReadArticle(group.name, leveldarticle.article.id);
+                    this.setState({readArticles: this.state.readArticles.concat(leveldarticle.article.id), activeArticle: leveldarticle.article})
+                },
+                referenceObject: leveldarticle.article
+            }));
+
+        }
+    }
+
+    private unnestThread(article:ArticleInterface, level:number = 0, sortKey:string = ""): LeveledArtilceInterface[]
+    {
+        var unnestThreads: LeveledArtilceInterface[] = [];
+        unnestThreads.push({article:article, level:level, sortKey:sortKey});
+        for (const [index, childarticle] of article.followUps.entries()) {
+            unnestThreads = unnestThreads.concat(this.unnestThread(childarticle, level + 1, sortKey + "_" + article.id));
+        }
+        return unnestThreads;
+    }
+
+
+
+
+
   render() {
     const nntpUrl = localStorage.getItem("nntpUrl");
     const nntpPortStr = localStorage.getItem("nntpPort");
@@ -97,20 +145,9 @@ export class GroupDetail extends React.Component<RouteComponentProps<GroupRouteP
       this.setState({filteredThreads})
     };
 
-    const articleTableData = group === null
-      ? []
-      : filteredThreads.map(article => ({
-        bold: !this.state.readArticles.find(a => a === article.id),
-        class: this.state.activeArticle === article.id ? "active-article" : "",
-        url: `${match.url}/${article.number}`,
-        onPress: () => {
-          addReadArticle(group.name, article.id);
-          this.setState({readArticles: this.state.readArticles.concat(article.id), activeArticle: article.id})
-        },
-        referenceObject: article
-      }));
+    const articleTableData = this.getTableData();
 
-      const articleListData = group === null
+    const articleListData = group === null
         ? []
         : filteredThreads.map(article => ({
           title: article.subject,
@@ -224,14 +261,13 @@ export class GroupDetail extends React.Component<RouteComponentProps<GroupRouteP
                                                     }
                                                  }))}/>}
 
-                      content1={<Table onPressSort={(sortColumn, ascending) => this.setState({sortColumn: sortColumn, ascending: ascending})} sortColumn={this.state.sortColumn} ascending={this.state.ascending} data={articleTableData} columns={[new TableColumn("Threads", 0, ""), new TableColumn("Subject", 0, "subject"), new TableColumn("Author", 1, "author"), new TableColumn("Date", 2, "date"), new TableColumn("Size", 0, "size"), new TableColumn("📎", 0, "hasattachment")]} urlColumn="url"/>}
+                      content1={<Table onPressSort={(sortColumn, ascending) => this.setState({sortColumn: sortColumn, ascending: ascending})} sortColumn={this.state.sortColumn} ascending={this.state.ascending} data={articleTableData} columns={[new TableColumn("Threads", 3, ""), new TableColumn("Subject", 0, "subject"), new TableColumn("Author", 1, "author"), new TableColumn("Date", 2, "date"), new TableColumn("Size", 0, "size"), new TableColumn("📎", 0, "hasattachment")]} urlColumn="url"/>}
 
                       content2={
                         <Switch>
                           <Route path={`${match.path}/:number`} render={props =>
                             <ThreadDetail {...props} group={group}
-                                          article={threads.find(thread => thread.number === parseInt(props.match.params.number))
-                                          || null}/>
+                                          article={this.state.activeArticle || null}/>
                           }/>
                           <NoThread url={match.path} groupName={group.name}/>
                         </Switch>

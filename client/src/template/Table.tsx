@@ -17,6 +17,8 @@ export class TableColumn {
 }
 
 export type TableType<T> = {
+  level?: number
+  sortKey: string
   bold?: boolean
   class?: string
   url?: string

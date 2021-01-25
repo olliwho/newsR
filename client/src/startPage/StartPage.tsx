@@ -90,11 +90,11 @@ function Start() {
     url: "/groups-manage"
   };
 
-  const subscriptionButton: Button = {
+  /*const subscriptionButton: Button = {
     name: "My Groups",
     icon: "home",
     url: "/"
-  };
+  };*/
 
   const newButtons: Button[] = [serverButton, manageButton];
 
