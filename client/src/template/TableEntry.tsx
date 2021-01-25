@@ -25,17 +25,27 @@ export function TableEntry<T extends TableType<T>>(props: {
   const row = columns.map((column, i) => {
             if (entry != null && entry["referenceObject" as keyof TableType<T>] != null)
             {
-                var value = ""
+                let value = "";
+                let item = "";
                 if (column.type === 1)
                     value = (entry.referenceObject[column.nativeName as keyof object] as Author).toString()
                 else if (column.type === 2)
                     value = (entry.referenceObject[column.nativeName as keyof object] as Moment).format("YYYY-MM-DD HH:mm")
+                else if (column.type === 3){
+                  value = entry.referenceObject[column.nativeName as keyof object]
+                  item = "size";
+                }
+                else if (column.type === 4){
+                  value = entry.referenceObject[column.nativeName as keyof object]
+                  item = "attachment";
+                }
                 else
                     value = entry.referenceObject[column.nativeName as keyof object]
-                return <td>{value}</td>
+
+                return item !== ""? <td className={item}>{value}</td> : <td>{value}</td>;
             }
             else
-                return <td></td>
+                return <td/>
         });
 
   return (

@@ -224,7 +224,16 @@ export class GroupDetail extends React.Component<RouteComponentProps<GroupRouteP
                                                     }
                                                  }))}/>}
 
-                      content1={<Table onPressSort={(sortColumn, ascending) => this.setState({sortColumn: sortColumn, ascending: ascending})} sortColumn={this.state.sortColumn} ascending={this.state.ascending} data={articleTableData} columns={[new TableColumn("Threads", 0, ""), new TableColumn("Subject", 0, "subject"), new TableColumn("Author", 1, "author"), new TableColumn("Date", 2, "date"), new TableColumn("Size", 0, "size"), new TableColumn("📎", 0, "hasattachment")]} urlColumn="url"/>}
+                      content1={<Table onPressSort={(sortColumn, ascending) => this.setState({sortColumn: sortColumn, ascending: ascending})}
+                                       sortColumn={this.state.sortColumn}
+                                       ascending={this.state.ascending}
+                                       data={articleTableData}
+                                       columns={[new TableColumn("Subject", 0, "subject"),
+                                                 new TableColumn("Author", 1, "author"),
+                                                 new TableColumn("Date", 2, "date"),
+                                                 new TableColumn("Size", 3, "size"),
+                                                 new TableColumn("📎", 4, "hasattachment")]}
+                                       urlColumn="url"/>}
 
                       content2={
                         <Switch>

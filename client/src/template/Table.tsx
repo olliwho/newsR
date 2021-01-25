@@ -79,9 +79,11 @@ export function Table<T extends TableType<T>>(props: {
   return (
     <table>
         <thead>
-            <tr>{header}</tr>
+          <tr>{header}</tr>
         </thead>
-        {dataString}
+        <tbody>
+          {dataString}
+        </tbody>
     </table>
   );
 }
