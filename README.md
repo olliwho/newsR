@@ -3,7 +3,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Quick Start
-In the newsR directory run this line.
+In the newsR directory run these lines in two console windows.
 ```console
 foo@bar:~$ cd server && npm run start 
 foo@bar:~$ cd client && npm run start
