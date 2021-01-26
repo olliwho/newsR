@@ -5,7 +5,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Quick Start
 In the newsR directory run this line.
 ```console
-foo@bar:~$ cd server && npm run start && cd ../client && npm run start
+foo@bar:~$ cd server && npm run start 
+foo@bar:~$ cd client && npm run start
 ```
 
 ## Server
