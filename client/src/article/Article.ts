@@ -65,12 +65,15 @@ export class Article implements ArticleInterface {
             hasattachment = '📎';
         }
 
+        /*
         if (fullSize > 1024*1024)
             size = (fullSize / (1024*1024)).toFixed(2).toString() + " MB";
         else if (fullSize > 1024)
             size = (fullSize / (1024)).toFixed(2).toString() + " KB";
         else
             size = fullSize.toString() + " B";
+        */
+        size = fullSize.toString() + " Bytes";
     }
     
     const article = new Article(a.headers['MESSAGE-ID'], a.articleNumber, mimeWordsDecode(a.headers.SUBJECT), date,
